@@ -1,0 +1,1 @@
+<block wx:if="{{!loading}}"><view class="container"><text class="title">我的战绩</text><block wx:for="{{records}}" wx:for-item="item" wx:for-index="index" wx:key="_id"><view class="record"><view>{{item.title+"*"+item.amount}}</view><view>{{item.amount*item.price}}</view></view></block><view class="tips">{{"总计"+total+"枚O币"}}</view></view></block>

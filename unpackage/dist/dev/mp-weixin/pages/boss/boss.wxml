@@ -1,0 +1,7 @@
+<view class="container"><view data-event-opts="{{[['tap',[['e0',['$event']]]]]}}" class="question" bindtap="__e"></view><block wx:if="{{!showExplain}}"><view class="content"><view class="program"><view class="img"></view><view>{{"节目："+program.title}}</view><view>{{"提示："+program.boss.tips}}</view></view></view></block><block wx:if="{{showExplain}}"><view class="detail"><view><icon type="clear" size="26" data-event-opts="{{[['tap',[['e1',['$event']]]]]}}" bindtap="__e"></icon></view><view><view class="title">谁是大boss</view><view class="info">每章节都会有一两个节目内部有隐藏boss
+				电视剧啊垃圾袋乱搭乱建来得及萨拉大家
+				到家啦时间到了睡觉啊的撒经理对的撒
+				的撒路口就到了撒娇对的撒来得及拉萨
+				电视剧啊垃圾袋几点了撒娇都是垃圾到了
+				DJ阿里几点啦都到教室啦建档立卡
+				 到拉萨就到了叫撒聊的逻辑啊睡懒觉到啦</view></view></view></block></view>
