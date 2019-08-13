@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<text>O币大作战</text>
+		<text @click="test">测试</text>
 	</view>
 </template>
 
@@ -10,6 +10,20 @@
 			return {
 				
 			};
+		},
+		methods: {
+			test() {
+				wx.cloud.init()
+				let db = wx.cloud.database({
+					env: 'test-aed77'
+				})
+				db.collection('users').get({
+					success: function(res) {
+						console.log(res)
+						console.log("caonimaa")
+					}
+				})
+			}
 		}
 	}
 </script>
