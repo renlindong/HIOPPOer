@@ -4,11 +4,12 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": false
+		"urlCheck": false,
+		"es6": true
 	},
-	"compileType": "miniprogram",
+	"compileType": "plugin",
 	"libVersion": "2.7.0",
-	"appid": "touristappid",
+	"appid": "wx6916c6a8d7692891",
 	"projectname": "HIOpper",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
@@ -21,13 +22,46 @@
 			"current": -1,
 			"list": []
 		},
+		"plugin": {
+			"current": 2,
+			"list": [
+				{
+					"id": -1,
+					"name": "vote",
+					"pathName": "pages/vote/vote",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 1,
+					"name": "pages/ace/ace",
+					"pathName": "pages/ace/ace",
+					"query": "id=3b64deee-dc86-4629-bbc9-93213b8b4e96",
+					"scene": null
+				},
+				{
+					"id": 2,
+					"name": "gamble",
+					"pathName": "pages/gamble/gamble",
+					"query": "",
+					"scene": null
+				}
+			]
+		},
 		"game": {
 			"current": -1,
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
-			"list": []
+			"current": 0,
+			"list": [
+				{
+					"name": "",
+					"path": "",
+					"query": "",
+					"id": 0
+				}
+			]
 		}
 	}
 }

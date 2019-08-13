@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "Pick你所爱",
+  "usingComponents": {
+    "van-dialog": "/wxcomponents/vant-weapp/dialog/index",
+    "van-slider": "/wxcomponents/vant-weapp/slider/index"
+  }
+}

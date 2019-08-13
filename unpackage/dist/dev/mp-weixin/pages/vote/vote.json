@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "最佳节目",
+  "usingComponents": {
+    "van-dialog": "/wxcomponents/vant-weapp/dialog/index"
+  }
+}
