@@ -2,7 +2,7 @@
 	<view class="container">
 		<view class="cards">
 			<view class="card" v-for="(item,index) in programs" :key="index">
-				<image @tap="openCard" :src="item.imgUrl" mode="" alt="item.title" :data-programid="item.programId"></image>
+				<image @tap="openCard" :src="item.imgUrl" mode="" alt="item.title" :data-id="item._id"></image>
 				<text>{{item.title}}</text>
 				<button @tap="onpick" :data-id="item._id">PICK</button>
 			</view>
@@ -16,68 +16,12 @@
 	export default {
 		data() {
 			return {
-				programs: [{
-					programId: '1',
-					title: '贝加尔湖畔',
-					imgUrl: '/static/logo.png',
-					disc: `《贝加尔湖畔》是李健作词、作曲并演唱的一首歌曲，收录于李健2011年12月10日发行的专辑《依然》。2015年，周深和李维凭借该曲获得第19届华语音乐榜中榜颁奖典礼-榜中榜最具潜力组合奖`,
-				},{
-					programId: '1',
-					title: '贝加尔湖畔',
-					imgUrl: '/static/logo.png',
-					disc: `《贝加尔湖畔》是李健作词、作曲并演唱的一首歌曲，收录于李健2011年12月10日发行的专辑《依然》。2015年，周深和李维凭借该曲获得第19届华语音乐榜中榜颁奖典礼-榜中榜最具潜力组合奖`,
-				},{
-					programId: '1',
-					title: '贝加尔湖畔',
-					imgUrl: '/static/logo.png',
-					disc: `《贝加尔湖畔》是李健作词、作曲并演唱的一首歌曲，收录于李健2011年12月10日发行的专辑《依然》。2015年，周深和李维凭借该曲获得第19届华语音乐榜中榜颁奖典礼-榜中榜最具潜力组合奖`,
-				},{
-					programId: '1',
-					title: '贝加尔湖畔',
-					imgUrl: '/static/logo.png',
-					disc: `《贝加尔湖畔》是李健作词、作曲并演唱的一首歌曲，收录于李健2011年12月10日发行的专辑《依然》。2015年，周深和李维凭借该曲获得第19届华语音乐榜中榜颁奖典礼-榜中榜最具潜力组合奖`,
-				},{
-					programId: '1',
-					title: '贝加尔湖畔',
-					imgUrl: '/static/logo.png',
-					disc: `《贝加尔湖畔》是李健作词、作曲并演唱的一首歌曲，收录于李健2011年12月10日发行的专辑《依然》。2015年，周深和李维凭借该曲获得第19届华语音乐榜中榜颁奖典礼-榜中榜最具潜力组合奖`,
-				},{
-					programId: '1',
-					title: '贝加尔湖畔',
-					imgUrl: '/static/logo.png',
-					disc: `《贝加尔湖畔》是李健作词、作曲并演唱的一首歌曲，收录于李健2011年12月10日发行的专辑《依然》。2015年，周深和李维凭借该曲获得第19届华语音乐榜中榜颁奖典礼-榜中榜最具潜力组合奖`,
-				},{
-					programId: '1',
-					title: '贝加尔湖畔',
-					imgUrl: '/static/logo.png',
-					disc: `《贝加尔湖畔》是李健作词、作曲并演唱的一首歌曲，收录于李健2011年12月10日发行的专辑《依然》。2015年，周深和李维凭借该曲获得第19届华语音乐榜中榜颁奖典礼-榜中榜最具潜力组合奖`,
-				},{
-					programId: '1',
-					title: '贝加尔湖畔',
-					imgUrl: '/static/logo.png',
-					disc: `《贝加尔湖畔》是李健作词、作曲并演唱的一首歌曲，收录于李健2011年12月10日发行的专辑《依然》。2015年，周深和李维凭借该曲获得第19届华语音乐榜中榜颁奖典礼-榜中榜最具潜力组合奖`,
-				},{
-					programId: '1',
-					title: '贝加尔湖畔',
-					imgUrl: '/static/logo.png',
-					disc: `《贝加尔湖畔》是李健作词、作曲并演唱的一首歌曲，收录于李健2011年12月10日发行的专辑《依然》。2015年，周深和李维凭借该曲获得第19届华语音乐榜中榜颁奖典礼-榜中榜最具潜力组合奖`,
-				},{
-					programId: '1',
-					title: '贝加尔湖畔',
-					imgUrl: '/static/logo.png',
-					disc: `《贝加尔湖畔》是李健作词、作曲并演唱的一首歌曲，收录于李健2011年12月10日发行的专辑《依然》。2015年，周深和李维凭借该曲获得第19届华语音乐榜中榜颁奖典礼-榜中榜最具潜力组合奖`,
-				},{
-					programId: '1',
-					title: '贝加尔湖畔',
-					imgUrl: '/static/logo.png',
-					disc: `《贝加尔湖畔》是李健作词、作曲并演唱的一首歌曲，收录于李健2011年12月10日发行的专辑《依然》。2015年，周深和李维凭借该曲获得第19届华语音乐榜中榜颁奖典礼-榜中榜最具潜力组合奖`,
-				},
-				],
+				programs: [],
 				voteProgram: ''
 			};
 		},
 		
-		onLoad() {
+		onLoad(query) {
 			// this.programs = JSON.parse(uni.getStorageSync('programs'))
 			const db = wx.cloud.database()
 			db.collection('programs').field({
@@ -87,6 +31,13 @@
 				imgUrl: true,
 			}).get().then(res => {
 				this.programs = res.data
+				if(query.from==="pickDetail"){
+					this.voteProgram = query.id
+					Dialog.confirm({
+						message: "每人仅有一票且无法更改，您确定要投票吗？",
+						cancelButtonText: '再想想'
+					})
+				}
 			})
 		},
 		
@@ -102,9 +53,9 @@
 				
 			},
 			openCard(e){
-				const programId = e.currentTarget.dataset.programid
+				const id = e.currentTarget.dataset.id
 				uni.navigateTo({
-					url: `/pages/gamble/gamble?programId=${programId}&from=vote`,
+					url: `/pages/pickDetail/pickDetail?id=${id}`,
 				});
 			},
 			onVote(e) {

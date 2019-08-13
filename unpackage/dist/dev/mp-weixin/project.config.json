@@ -7,7 +7,7 @@
 		"urlCheck": false,
 		"es6": true
 	},
-	"compileType": "plugin",
+	"compileType": "miniprogram",
 	"libVersion": "2.7.0",
 	"appid": "wx6916c6a8d7692891",
 	"projectname": "HIOpper",
@@ -23,7 +23,7 @@
 			"list": []
 		},
 		"plugin": {
-			"current": 2,
+			"current": 0,
 			"list": [
 				{
 					"id": -1,
@@ -56,10 +56,10 @@
 			"current": 0,
 			"list": [
 				{
-					"name": "",
-					"path": "",
-					"query": "",
-					"id": 0
+					"id": -1,
+					"name": "pages/vote/vote",
+					"pathName": "pages/vote/vote",
+					"scene": null
 				}
 			]
 		}

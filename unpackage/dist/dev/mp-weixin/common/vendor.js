@@ -7702,40 +7702,6 @@ createPage(_gamble.default);
 /***/ }),
 
 /***/ 55:
-/*!*******************************************************************************!*\
-  !*** C:/Users/Oliver/Desktop/HIOPPOer/main.js?{"page":"pages%2Fvote%2Fvote"} ***!
-  \*******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _vote = _interopRequireDefault(__webpack_require__(/*! ./pages/vote/vote.vue */ 56));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_vote.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 63:
-/*!*****************************************************************************!*\
-  !*** C:/Users/Oliver/Desktop/HIOPPOer/main.js?{"page":"pages%2Face%2Face"} ***!
-  \*****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _ace = _interopRequireDefault(__webpack_require__(/*! ./pages/ace/ace.vue */ 64));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_ace.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 75:
 /*!*********************************************************************************!*\
   !*** C:/Users/Oliver/Desktop/HIOPPOer/wxcomponents/vant-weapp/dialog/dialog.js ***!
   \*********************************************************************************/
@@ -7804,6 +7770,57 @@ Dialog.resetDefaultOptions = function () {
 };
 Dialog.resetDefaultOptions();var _default =
 Dialog;exports.default = _default;
+
+/***/ }),
+
+/***/ 58:
+/*!*******************************************************************************!*\
+  !*** C:/Users/Oliver/Desktop/HIOPPOer/main.js?{"page":"pages%2Fvote%2Fvote"} ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _vote = _interopRequireDefault(__webpack_require__(/*! ./pages/vote/vote.vue */ 59));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_vote.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 66:
+/*!*****************************************************************************!*\
+  !*** C:/Users/Oliver/Desktop/HIOPPOer/main.js?{"page":"pages%2Face%2Face"} ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _ace = _interopRequireDefault(__webpack_require__(/*! ./pages/ace/ace.vue */ 67));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_ace.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 74:
+/*!*******************************************************************************************!*\
+  !*** C:/Users/Oliver/Desktop/HIOPPOer/main.js?{"page":"pages%2FpickDetail%2FpickDetail"} ***!
+  \*******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _pickDetail = _interopRequireDefault(__webpack_require__(/*! ./pages/pickDetail/pickDetail.vue */ 75));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_pickDetail.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ })
 

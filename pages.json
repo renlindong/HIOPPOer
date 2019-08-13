@@ -47,6 +47,10 @@
             "path" : "pages/ace/ace",
             "style" : {}
         }
+        ,{
+            "path" : "pages/pickDetail/pickDetail",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

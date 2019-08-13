@@ -6,8 +6,12 @@
 		    <input required type="text" v-model="name"></input>
 		</view>
 		<view class="wrapper">
-		    <text>工号</text>
-		    <input required type="number" v-model="jobNumber"></input>
+		    <text>班级</text>
+			<picker @change="bindPickerChange" :value="index" :range="array">
+				<view class="picker">
+				  {{array[index]}}
+				</view>
+			</picker>
 		</view>
 		<button class="start" @click="onStart">加入作战</button>
 	</view>
@@ -18,44 +22,52 @@
 		data() {
 			return {
 				name: "",
-				jobNumber: "",
+				array: ['二班','三班','四班','五班','六班','七班'],
+				index: 0,
 			};
 		},
 		methods:{
+			bindPickerChange(e) {
+			    this.index = e.detail.value
+			},
 			onStart(){
-				let {name, jobNumber} = this
-				wx.cloud.callFunction({
-					name: 'login',
-					data: {name, jobNumber},
-					success: (res)=>{
-						console.log(res)
-						if(res.result.errCode) {
-							wx.showToast({
-								title: '姓名或工号错误',
-								icon: 'none'
-							})
-						} else {
-							// console.log('success', res.errMessage)
-							const oppoer = JSON.stringify({name, jobNumber})
-							try{
-								uni.setStorageSync('oppoer', oppoer)
-							}catch(e){
-								//TODO handle the exception
-								console.log(e)
-							}
-							uni.navigateTo({
-								url: '/pages/gamble/gamble',
-							});
-						}
-					},
-					fail: (res)=>{
-						wx.showToast({
-							title: '登录失败，请重试',
-							icon: 'none'
-						})
-						console.log('login fail', res)
-					}
-				})
+				let { name } = this
+				let klass = this.array[this.index]
+				uni.navigateTo({
+					url: '/pages/gamble/gamble',
+				});
+				// wx.cloud.callFunction({
+				// 	name: 'login',
+				// 	data: {name, klass},
+				// 	success: (res)=>{
+				// 		console.log(res)
+				// 		if(res.result.errCode) {
+				// 			wx.showToast({
+				// 				title: '姓名或班级错误',
+				// 				icon: 'none'
+				// 			})
+				// 		} else {
+				// 			// console.log('success', res.errMessage)
+				// 			const oppoer = JSON.stringify({name, klass})
+				// 			try{
+				// 				uni.setStorageSync('oppoer', oppoer)
+				// 			}catch(e){
+				// 				//TODO handle the exception
+				// 				console.log(e)
+				// 			}
+				// 			uni.navigateTo({
+				// 				url: '/pages/gamble/gamble',
+				// 			});
+				// 		}
+				// 	},
+				// 	fail: (res)=>{
+				// 		wx.showToast({
+				// 			title: '登录失败，请重试',
+				// 			icon: 'none'
+				// 		})
+				// 		console.log('login fail', res)
+				// 	}
+				// })
 			}
 		}
 	}
@@ -84,7 +96,15 @@
 			position: relative;
 			bottom: 12upx;
 			font-size: 30upx;
-		}
+			text-align: center;
+		};
+		picker {
+			border-bottom: 1px solid black;
+			width: 200upx;
+			margin-left: 15upx;
+			font-size: 30upx;
+			text-align: center;
+		};
 		font-size: 35upx;
 		margin-bottom: 20upx;
 	}

@@ -4,7 +4,7 @@
 			:current="curProg"
 			previous-margin="60rpx"
 			next-margin="60rpx"
-			@change="onChange"
+			@change="handleChange"
 		>
 			<swiper-item class="intro" :index='0'>
 				<view class="wrapper">
@@ -59,7 +59,7 @@
 			step="9.0909" 
 			active-color="#ffffff" 
 			inactive-color="#ffffff" 
-			@change="onChange" 
+			@change="progressChange" 
 			:value="curProgress"
 			class="progress"
 			/>
@@ -97,8 +97,8 @@
 			})
 		},
 		methods: {
-			handleChange(current, source){
-				this.curProgress = current * 9.0909
+			handleChange(e){
+				this.curProgress = e.detail.current * 9.0909
 			},
 			decrease(e){
 				const index = e.currentTarget.dataset.index
@@ -139,11 +139,8 @@
 					url: `/pages/home/home`,
 				})
 			},
-			onChange(e){
-				if(e.detail.source==="touch"){
-					this.curProgress = Math.round(e.detail.current/9.0909)				
-				}
-				console.log(e.detail.current)
+			progressChange(e){
+				this.curProg = Math.round(e.detail/9.0909)
 			}
 		}
 	}

@@ -127,49 +127,61 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
     return {
       name: "",
-      jobNumber: "" };
+      array: ['二班', '三班', '四班', '五班', '六班', '七班'],
+      index: 0 };
 
   },
   methods: {
+    bindPickerChange: function bindPickerChange(e) {
+      this.index = e.detail.value;
+    },
     onStart: function onStart() {var
-      name = this.name,jobNumber = this.jobNumber;
-      wx.cloud.callFunction({
-        name: 'login',
-        data: { name: name, jobNumber: jobNumber },
-        success: function success(res) {
-          console.log(res);
-          if (res.result.errCode) {
-            wx.showToast({
-              title: '姓名或工号错误',
-              icon: 'none' });
+      name = this.name;
+      var klass = this.array[this.index];
+      uni.navigateTo({
+        url: '/pages/gamble/gamble' });
 
-          } else {
-            // console.log('success', res.errMessage)
-            var oppoer = JSON.stringify({ name: name, jobNumber: jobNumber });
-            try {
-              uni.setStorageSync('oppoer', oppoer);
-            } catch (e) {
-              //TODO handle the exception
-              console.log(e);
-            }
-            uni.navigateTo({
-              url: '/pages/gamble/gamble' });
-
-          }
-        },
-        fail: function fail(res) {
-          wx.showToast({
-            title: '登录失败，请重试',
-            icon: 'none' });
-
-          console.log('login fail', res);
-        } });
-
+      // wx.cloud.callFunction({
+      // 	name: 'login',
+      // 	data: {name, klass},
+      // 	success: (res)=>{
+      // 		console.log(res)
+      // 		if(res.result.errCode) {
+      // 			wx.showToast({
+      // 				title: '姓名或班级错误',
+      // 				icon: 'none'
+      // 			})
+      // 		} else {
+      // 			// console.log('success', res.errMessage)
+      // 			const oppoer = JSON.stringify({name, klass})
+      // 			try{
+      // 				uni.setStorageSync('oppoer', oppoer)
+      // 			}catch(e){
+      // 				//TODO handle the exception
+      // 				console.log(e)
+      // 			}
+      // 			uni.navigateTo({
+      // 				url: '/pages/gamble/gamble',
+      // 			});
+      // 		}
+      // 	},
+      // 	fail: (res)=>{
+      // 		wx.showToast({
+      // 			title: '登录失败，请重试',
+      // 			icon: 'none'
+      // 		})
+      // 		console.log('login fail', res)
+      // 	}
+      // })
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
