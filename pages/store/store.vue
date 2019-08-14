@@ -41,7 +41,7 @@
 	export default {
 		data() {
 			return {
-				balance: 5,
+				balance: 0,
 				commodityList: [{
 						_id: 1,
 						itemId: "1",
@@ -115,7 +115,14 @@
 				})
 			}
 		},
+		onLoad() {
+			this.init()
+		},
 		methods: {
+			init() {
+				let ob = uni.getStorageSync('leftOb')
+				this.balance = ob
+			},
 			handleComputed(type, index) {
 				let {
 					commodityList
@@ -142,10 +149,13 @@
 						icon: 'none'
 					})
 					return
+				} else {
+					this.balance -= total
+					uni.setStorageSync('leftOb', this.balance)
+					uni.navigateTo({
+						url: `../home/home?type=-&value=${total}`
+					})
 				}
-				uni.navigateTo({
-					url: '../record/record'
-				})
 			}
 		}
 	}
@@ -262,6 +272,7 @@
 		bottom: 20rpx;
 		width: 100%;
 		z-index: 999;
+
 		button {
 			width: 80%;
 			margin: 0 auto;

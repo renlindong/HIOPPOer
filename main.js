@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import App from './App'
+import countUp from './components/p-countUp/countUp.vue'
+
+Vue.component('countup',countUp)
 
 Vue.config.productionTip = false
 

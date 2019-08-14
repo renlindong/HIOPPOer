@@ -4,10 +4,14 @@
 		<view v-if="!showExplain" class="content">
 			<view class="program">
 				<view class="img">
-					
 				</view>
 				<view>节目：{{ program.title }}</view>
 				<view>提示：{{ program.boss.tips }}</view>
+			</view>
+			<view class="rail"></view>
+			<view class="form">
+				<input type="text" value="请输入答案" v-model="answer"/>
+				<button type="primary" @tap="handleSubmit">提交</button>
 			</view>
 		</view>
 		<view v-if="showExplain" class="detail">
@@ -38,15 +42,31 @@
 			return {
 				showExplain: false,
 				program: {
-					title: '贝加尔湖畔',
-					boss: {
-						hasOne: true,
-						tips: '巴拉巴拉罢了',
-						answer: '老夫子'
-					},
-					votes: 99
-				}
+				},
+				answer: '',
+				isAnswer: false
 			};
+		},
+		onLoad(query) {
+			let program = JSON.parse(query.json)
+			this.program = program
+		},
+		methods: {
+			handleSubmit() {
+				if(this.answer === this.program.boss.answer) {
+					uni.showModal({
+						title: '恭喜你，回答正确!',
+						content: 'O币数量+3',
+						success: function(res) {
+							if(res.confirm) {
+								wx.redirectTo({
+									url: `../home/home?type=+&value=${3}`
+								})
+							}
+						}
+					})
+				}
+			}
 		}
 	}
 </script>
@@ -92,6 +112,20 @@
 					width: 100%;
 					height: 360rpx;
 					background-color: #ccc;
+				}
+			}
+			.rail {
+				margin-top: 20rpx;
+				background-color: #fff;
+				border-radius: 6rpx;
+				height: 10rpx;
+			}
+			.form {
+				display: flex;
+				align-items: center;
+				>input {
+					background-color: #fff;
+					border-radius: 10rpx;
 				}
 			}
 		}

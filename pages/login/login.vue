@@ -3,7 +3,7 @@
 		<view class="title">O币大作战</view>
 		<view class="wrapper">
 			<text>姓名</text>
-		    <input required type="text" v-model="name"></input>
+		    <input required type="text" v-model="name" />
 		</view>
 		<view class="wrapper">
 		    <text>班级</text>
