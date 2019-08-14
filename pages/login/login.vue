@@ -33,8 +33,8 @@
 			onStart(){
 				let { name } = this
 				let klass = this.array[this.index]
-				uni.navigateTo({
-					url: '/pages/gamble/gamble',
+				uni.redirectTo({
+					url: '/pages/home/home',
 				});
 				// wx.cloud.callFunction({
 				// 	name: 'login',

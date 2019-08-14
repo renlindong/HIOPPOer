@@ -151,8 +151,7 @@
 					return
 				} else {
 					this.balance -= total
-					uni.setStorageSync('leftOb', this.balance)
-					uni.navigateTo({
+					uni.redirectTo({
 						url: `../home/home?type=-&value=${total}`
 					})
 				}

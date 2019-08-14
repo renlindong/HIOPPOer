@@ -15,7 +15,7 @@
 			</view>
 		</view>
 		<view class="action">
-			<view class="">
+			<view class="" @tap="goToAce">
 				<view class=""></view>
 				<view class="">最佳节目</view>
 			</view>
@@ -64,6 +64,11 @@
 					url: '../store/store'
 				})
 			},
+			goToAce() {
+				uni.navigateTo({
+					url: '../ace/ace'
+				})
+			},
 			startCartoon() {
 				let _this = this
 				let coinAni = uni.createAnimation({
@@ -81,7 +86,7 @@
 			},
 			init() {
 				let ob = uni.getStorageSync('leftOb')
-				this.num = ob
+				this.num = ob - 0
 			}
 		},
 		onLoad(query) {
