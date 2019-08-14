@@ -1,1 +1,0 @@
-<view class="main"><view class="wrapper"><image src="{{program.imgUrl}}" mode></image><view class="program-title">{{''+program.title+''}}</view><view class="program-disc">{{''+program.disc+''}}</view><button data-event-opts="{{[['tap',[['onPick',['$event']]]]]}}" bindtap="__e">PICK</button></view></view>
