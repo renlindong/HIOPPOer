@@ -1,1 +1,0 @@
-<view><text data-event-opts="{{[['tap',[['test',['$event']]]]]}}" bindtap="__e">测试</text></view>
