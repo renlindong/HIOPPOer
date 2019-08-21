@@ -60,7 +60,7 @@
 							// console.log('success', res.errMessage)
 							const oppoer = JSON.stringify({name, klass, jobNumber})
 							try{
-								// uni.setStorageSync('oppoer', oppoer)
+								uni.setStorageSync('oppoer', oppoer)
 							}catch(e){
 								//TODO handle the exception
 								console.log(e)
