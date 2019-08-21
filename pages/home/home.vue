@@ -66,7 +66,7 @@
 			},
 			goToAce() {
 				uni.navigateTo({
-					url: '../ace/ace'
+					url: '../vote/vote'
 				})
 			},
 			startCartoon() {

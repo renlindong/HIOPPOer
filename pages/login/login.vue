@@ -13,6 +13,10 @@
 				</view>
 			</picker>
 		</view>
+		<view v-if="index===7" class="wrapper">
+			<text>工号</text>
+		    <input required type="text" v-model="jobNumber" />
+		</view>
 		<button class="start" @click="onStart">加入作战</button>
 	</view>
 </template>
@@ -22,52 +26,58 @@
 		data() {
 			return {
 				name: "",
-				array: ['二班','三班','四班','五班','六班','七班'],
+				array: ['一班','二班','三班','四班','五班','六班','七班','欧爸'],
 				index: 0,
+				jobNumber: '',
 			};
+		},
+		onLoad() {
+			const oppoer = uni.getStorageSync('oppoer')
+			if(oppoer){
+				uni.redirectTo({
+					url: '/pages/gamble/gamble',
+				})
+			}
 		},
 		methods:{
 			bindPickerChange(e) {
-			    this.index = e.detail.value
+			    this.index = e.detail.value;
 			},
 			onStart(){
 				let { name } = this
 				let klass = this.array[this.index]
-				uni.redirectTo({
-					url: '/pages/home/home',
-				});
-				// wx.cloud.callFunction({
-				// 	name: 'login',
-				// 	data: {name, klass},
-				// 	success: (res)=>{
-				// 		console.log(res)
-				// 		if(res.result.errCode) {
-				// 			wx.showToast({
-				// 				title: '姓名或班级错误',
-				// 				icon: 'none'
-				// 			})
-				// 		} else {
-				// 			// console.log('success', res.errMessage)
-				// 			const oppoer = JSON.stringify({name, klass})
-				// 			try{
-				// 				uni.setStorageSync('oppoer', oppoer)
-				// 			}catch(e){
-				// 				//TODO handle the exception
-				// 				console.log(e)
-				// 			}
-				// 			uni.navigateTo({
-				// 				url: '/pages/gamble/gamble',
-				// 			});
-				// 		}
-				// 	},
-				// 	fail: (res)=>{
-				// 		wx.showToast({
-				// 			title: '登录失败，请重试',
-				// 			icon: 'none'
-				// 		})
-				// 		console.log('login fail', res)
-				// 	}
-				// })
+				wx.cloud.callFunction({
+					name: 'login',
+					data: {name, klass},
+					success: (res)=>{
+						console.log(res)
+						if(res.result.errCode) {
+							wx.showToast({
+								title: '姓名或班级错误',
+								icon: 'none'
+							})
+						} else {
+							// console.log('success', res.errMessage)
+							const oppoer = JSON.stringify({name, klass})
+							try{
+								// uni.setStorageSync('oppoer', oppoer)
+							}catch(e){
+								//TODO handle the exception
+								console.log(e)
+							}
+							uni.redirectTo({
+								url: '/pages/gamble/gamble',
+							});
+						}
+					},
+					fail: (res)=>{
+						wx.showToast({
+							title: '登录失败，请重试',
+							icon: 'none'
+						})
+						console.log('login fail', res)
+					}
+				})
 			}
 		}
 	}
