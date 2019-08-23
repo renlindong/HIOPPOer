@@ -13,7 +13,7 @@
 				</view>
 			</picker>
 		</view>
-		<view v-if="index===7" class="wrapper">
+		<view v-if="index==7" class="wrapper">
 			<text>工号</text>
 		    <input required type="text" v-model="jobNumber" />
 		</view>
@@ -41,7 +41,7 @@
 		},
 		methods:{
 			bindPickerChange(e) {
-			    this.index = e.detail.value;
+			    this.index = e.detail.value
 			},
 			onStart(){
 				let { name } = this
