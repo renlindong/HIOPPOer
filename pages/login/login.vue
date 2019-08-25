@@ -35,7 +35,7 @@
 			const oppoer = uni.getStorageSync('oppoer')
 			if(oppoer){
 				uni.redirectTo({
-					url: '/pages/gamble/gamble',
+					url: '/pages/home/home',
 				})
 			}
 		},
@@ -44,23 +44,23 @@
 			    this.index = e.detail.value
 			},
 			onStart(){
-				let { name } = this
+				let { name, jobNumber, index} = this
 				let klass = this.array[this.index]
 				wx.cloud.callFunction({
 					name: 'login',
-					data: {name, klass},
-					success: (res)=>{
-						console.log(res)
-						if(res.result.errCode) {
+					data: {name, klass, jobNumber},
+					success(res) {
+						if(res.result.errCode===1) {
+							console.log(res.result.errMessage)
 							wx.showToast({
-								title: '姓名或班级错误',
+								title: index===7?'姓名或工号错误':'姓名或班级错误',
 								icon: 'none'
 							})
-						} else {
+						} else if (res.result.errCode===0) {
 							// console.log('success', res.errMessage)
-							const oppoer = JSON.stringify({name, klass})
+							const oppoer = JSON.stringify({name, klass, jobNumber})
 							try{
-								// uni.setStorageSync('oppoer', oppoer)
+								uni.setStorageSync('oppoer', oppoer)
 							}catch(e){
 								//TODO handle the exception
 								console.log(e)
@@ -68,6 +68,12 @@
 							uni.redirectTo({
 								url: '/pages/gamble/gamble',
 							});
+						} else if (res.result.errCode===2) {
+							console.log(res.result.errMessage)
+							wx.showToast({
+								title: '您似乎不在“欧爸”阵营中，请再次核对班级',
+								icon: 'none'
+							})
 						}
 					},
 					fail: (res)=>{

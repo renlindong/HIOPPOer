@@ -128,16 +128,34 @@
 				})	
 			},
 			onConfirm(){
-				const myPicks = JSON.stringify(this.picks)
-				try {
-					uni.setStorageSync('myPicks', myPicks)
-					uni.setStorageSync('leftOb', this.leftOb)
-				} catch(e) {
-					console.log(e)
-				}
-				uni.navigateTo({
-					url: `/pages/home/home`,
+				const oppoer = JSON.parse(uni.getStorageSync('oppoer'))
+				const picks = this.picks.map(item => {
+					const { programId, title, ob } = item
+					return {
+						programId,
+						title,
+						ob: +ob
+					}
 				})
+				const db = wx.cloud.database();
+				const filt = oppoer.klass==='欧爸'?{name: oppoer.name, jobNumber:oppoer.jobNumber}:{name:oppoer.name, klass:oppoer.klass}
+				db.collection('users').where(filt).get().then(res => {
+					console.log(res)
+					db.collection('users').doc(res.data[0]._id).update({
+						data: {
+							picks,
+							ob: this.leftOb,
+						}
+					}).then(res => {
+						console.log(res)
+						uni.redirectTo({
+							url: `/pages/home/home`,
+						})
+					}).catch(e=> {
+						console.log(e)
+					})
+				})
+				
 			},
 			progressChange(e){
 				this.curProg = Math.round(e.detail/9.0909)

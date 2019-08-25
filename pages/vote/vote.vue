@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<view class="cards">
-			<view class="card" v-for="(item,index) in programs" :key="index">
+			<view class="card" v-for="(item,index) in programs" :key="item.programId">
 				<image @tap="openCard" :src="item.imgUrl" mode="" alt="item.title" :data-id="item._id"></image>
 				<text>{{item.title}}</text>
 				<button @tap="onpick" :data-id="item._id">PICK</button>
@@ -33,8 +33,9 @@
 				this.programs = res.data
 				if(query.from==="pickDetail"){
 					this.voteProgram = query.id
+					const { klass } = JSON.parse(uni.getStorageSync('oppoer'))
 					Dialog.confirm({
-						message: "每人仅有一票且无法更改，您确定要投票吗？",
+						message: `${klass==='欧爸'?'欧爸有50票，一旦投票无法更改':'每人仅有一票且无法更改'}，您确定要投票吗？`,
 						cancelButtonText: '再想想'
 					})
 				}
@@ -43,8 +44,9 @@
 		
 		methods: {
 			onpick(e){
+				const { klass } = JSON.parse(uni.getStorageSync('oppoer'))
 				Dialog.confirm({
-					message: "每人仅有一票且无法更改，您确定要投票吗？",
+					message: `${klass==='欧爸'?'欧爸有50票，一旦投票无法更改':'每人仅有一票且无法更改'}，您确定要投票吗？`,
 					cancelButtonText: '再想想'
 				})
 				const id = e.currentTarget.dataset.id
@@ -60,9 +62,11 @@
 			},
 			onVote(e) {
 				// console.log("onvote: ", this.voteProgram)
+				const { klass } = JSON.parse(uni.getStorageSync('oppoer'))
 				wx.cloud.callFunction({
 					name: 'vote',
 					data: {
+						klass,
 						_id: this.voteProgram
 					}
 				})

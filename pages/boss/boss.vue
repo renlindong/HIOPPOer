@@ -59,7 +59,7 @@
 						content: 'O币数量+3',
 						success: function(res) {
 							if(res.confirm) {
-								wx.redirectTo({
+								uni.reLaunch({
 									url: `../home/home?type=+&value=${3}`
 								})
 							}

@@ -21,7 +21,7 @@
 			</view>
 			<view @tap="goToStore" class="">
 				<view class=""></view>
-				<view class="">O币商城</view>
+				<view class="">奖品概览</view>
 			</view>
 			<view @tap="findBoss" class="">
 				<view class=""></view>
@@ -44,17 +44,22 @@
 		},
 		methods: {
 			findBoss() {
-				wx.cloud.init({
-					env: 'test-aed77'
+				uni.showLoading({
+					title: '加载中...'
 				})
 				wx.cloud.callFunction({
 					name: 'findBoss'
 				}).then(response => {
 					console.log(response)
+					uni.hideLoading()
 					let { result } = response
 					if(result && result.code === 200) {
 						uni.navigateTo({
 							url: `../boss/boss?json=${JSON.stringify(result.program)}`
+						})
+					} else {
+						uni.showToast({
+							title: '当前节目没有大Boss'
 						})
 					}
 				})
