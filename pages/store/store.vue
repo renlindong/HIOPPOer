@@ -1,283 +1,121 @@
 <template>
-	<view class="">
-		<view class="fixed-top">
-			<view>
-				<view class="error-info">O币数量不足!</view>
-				<view class="coin-info">
-					您拥有
-					<view class="icon"></view>
-					<text>{{ balance }}</text>
-				</view>
-			</view>
+	<view class="container">
+		<view class="header">
+			排名 2/1000
 		</view>
-		<view class="main">
-			<view v-for="(item, index) in commodityList" :key="item._id" class="commodity-wrap">
-				<view class="commodity">
-					<view class="img"></view>
-					<view class="content">
-						<view class="price">
-							<view class="coin"></view>
-							<text>{{ item.price }}</text>
-						</view>
-						<view class="action">
-							<view class="icon" @click="handleComputed('-', index)"></view>
-							<input class="nums" v-model="item.amount"></input>
-							<view class="icon" @click="handleComputed('+', index)"></view>
-						</view>
-					</view>
-				</view>
-			</view>
-		</view>
-
-		<view class="fixed-bottom">
-			<view>
-				<button @click="submit">确认购物</button>
+		<view class="content">
+			<view class="content-item" v-for="(award, index) in awardList" :key="award.name">
+				<view class="content-item-rank">{{ index + 1 }}</view>
+				<view class="content-item-img"></view>
+				<text class="content-item-name">{{ award.name }}</text>
+				<view class="content-item-bar"></view>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import users from '../../user.json'
 	export default {
 		data() {
 			return {
-				balance: 0,
-				commodityList: [{
-						_id: 1,
-						itemId: "1",
-						title: "Reno",
-						imgUrl: 'xxx',
-						store: 10,
-						price: 3,
-						amount: 0
+				rank: 1,
+				amount: 100,
+				awardList: [
+					{
+						img: '',
+						name: 'reno',
 					},
 					{
-						_id: 2,
-						itemId: "2",
-						title: "A9",
-						imgUrl: 'xxx',
-						store: 10,
-						price: 1,
-						amount: 0
+						img: '',
+						name: '一把遮阳伞呀'
 					},
 					{
-						_id: 3,
-						itemId: "3",
-						title: "Find X",
-						imgUrl: 'xxx',
-						store: 10,
-						price: 5,
-						amount: 0
-					},
-					{
-						_id: 4,
-						itemId: "4",
-						title: "Reno Z",
-						imgUrl: 'xxx',
-						store: 10,
-						price: 2,
-						amount: 0
-					},
-					{
-						_id: 5,
-						itemId: "4",
-						title: "Reno Z",
-						imgUrl: 'xxx',
-						store: 10,
-						price: 2,
-						amount: 0
-					},
-					{
-						_id: 6,
-						itemId: "4",
-						title: "Reno Z",
-						imgUrl: 'xxx',
-						store: 10,
-						price: 2,
-						amount: 0
-					},
-					{
-						_id: 7,
-						itemId: "4",
-						title: "Reno Z",
-						imgUrl: 'xxx',
-						store: 10,
-						price: 2,
-						amount: 0
+						img: '',
+						name: '自拍神器'
 					}
 				]
-			};
-		},
-		computed: {
-			purchaseList() {
-				return this.commodityList.filter((item) => {
-					return item.amount > 0
-				})
 			}
 		},
+		computed: {
+			
+		},
 		onLoad() {
+			console.log(users)
 			this.init()
 		},
 		methods: {
 			init() {
 				let ob = uni.getStorageSync('leftOb')
 				this.balance = ob
-			},
-			handleComputed(type, index) {
-				let {
-					commodityList
-				} = this
-				if (type === '-') {
-					if (commodityList[index].amount === 0) {
-						return
-					}
-					commodityList[index].amount--
-				} else {
-					commodityList[index].amount++
-				}
-			},
-			submit() {
-				console.log(this.purchaseList)
-				//
-				let total = this.purchaseList.reduce((initVal, commodity) => {
-					return initVal + commodity.amount * commodity.price
-				}, 0)
-				console.log(total)
-				if (total > this.balance) {
-					uni.showToast({
-						title: '余额不足',
-						icon: 'none'
-					})
-					return
-				} else {
-					this.balance -= total
-					uni.setStorageSync('leftOb', this.balance)
-					uni.navigateTo({
-						url: `../home/home?type=-&value=${total}`
-					})
-				}
+				
+				wx.cloud.callFunction({
+					name: 'checkRank'
+				})
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
-	.fixed-top {
-		width: 100%;
-		position: fixed;
-		top: 0;
-		background-color: #fff;
-		z-index: 999;
-		box-shadow: 5rpx 6rpx 20rpx #ccc;
-
-		>view {
-			display: flex;
-			justify-content: flex-end;
+	.container {
+		padding: 0 60rpx;
+		.header {
+			text-align: right;
 			line-height: 50rpx;
-			box-sizing: border-box;
-			padding: 10rpx 8rpx;
-			margin-right: 30rpx;
-
-			.error-info {
-				color: red;
-			}
-
-			.coin-info {
-				display: flex;
-				align-items: center;
-
-				.icon {
-					width: 36rpx;
-					height: 36rpx;
-					border-radius: 50%;
-					background-color: greenyellow;
-					margin: 0 12rpx;
-				}
-			}
 		}
-	}
-
-	.main {
-		margin: 80rpx 0;
-		padding: 0 40rpx;
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-
-		.commodity-wrap {
-			width: 48%;
-			margin-top: 30rpx;
-
-			.commodity {
-				width: 100%;
+		.content {
+			&-item {
+				border-radius: 16rpx;
+				height: 300rpx;
+				background-color: #ccc;
+				padding: 30rpx 0 30rpx 30rpx;
+				margin-top: 59rpx;
 				box-sizing: border-box;
-				background-color: #fff;
-				padding: 24rpx 18rpx 30rpx;
-				border-radius: 5rpx;
-				box-shadow: 5rpx 6rpx 20rpx #ccc;
-
-				.img {
-					border-radius: 5px;
-					height: 300rpx;
-					background-color: #ccc;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				position: relative;
+				
+				&-img {
+					border-radius: 16rpx;
+					background-color: #fff;
+					width: 350rpx;
+					height: 100%;
 				}
-
-				.content {
-					display: flex;
-					align-items: center;
-					justify-content: space-between;
-					margin-top: 20rpx;
-
-					.price {
-						display: flex;
-						align-items: center;
-
-						>text {
-							margin-left: 10rpx;
-						}
-
-						.coin {
-							width: 40rpx;
-							height: 40rpx;
-							border-radius: 50%;
-							background-color: greenyellow;
-						}
-					}
-
-					.action {
-						display: flex;
-						align-items: center;
-
-						.icon {
-							width: 40rpx;
-							height: 40rpx;
-							border-radius: 50%;
-							background-color: #ccc;
-						}
-
-						.nums {
-							border: 1px solid #ccc;
-							width: 50rpx;
-							text-align: center;
-							margin: 0 8rpx;
-						}
-					}
+				&-name {
+					flex: 1;
+					text-align: center;
+				}
+				&-rank {
+					width: 50rpx;
+					height: 50rpx;
+					border-radius: 50%;
+					text-align: center;
+					color: red;
+					background-color: blue;
+					position: absolute;
+					top: 0;
+					left: 0;
+					margin-left: -10rpx;
+					margin-top: -10rpx;
+				}
+				&-bar {
+					position: absolute;
+					width: 40rpx;
+					height: 60rpx;
+					background-color: red;
+					left: 50%;
+					bottom: 0;
+					margin-left: -20rpx;
+					margin-bottom: -59rpx;
 				}
 			}
-		}
-	}
-
-	.fixed-bottom {
-		position: fixed;
-		bottom: 20rpx;
-		width: 100%;
-		z-index: 999;
-
-		button {
-			width: 80%;
-			margin: 0 auto;
-			background-color: #1dd8df;
-			color: #fff;
+			&-item:last-child {
+				.content-item-bar {
+					display: none;
+				}
+			}
 		}
 	}
 </style>
