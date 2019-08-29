@@ -8,7 +8,9 @@
 		},
 		{
 			"path": "pages/home/home",
-			"style": {}
+			"style": {
+				"navigationBarTitleText": "O币大作战"
+			}
 		},
 	 {
 			"path": "pages/record/record",
