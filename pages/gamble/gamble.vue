@@ -34,7 +34,7 @@
 					<text class="left">剩余{{leftOb}}枚</text>
 				</view>
 			</swiper-item>
-			<swiper-item class="end" :index='11'>
+			<swiper-item class="end" :index='10'>
 				<view class="wrapper">
 					<view class="intro-title">我的Pick</view>
 					<view class="picks" v-for="(item,index) in picks" :key="index">
@@ -56,7 +56,7 @@
 		<view class="slider-wrapper">
 			<van-slider 
 			bar-height="10rpx" 
-			step="9.0909" 
+			step="10" 
 			active-color="#ffffff" 
 			inactive-color="#ffffff" 
 			@change="progressChange" 
@@ -81,6 +81,16 @@
 			};
 		},
 		onLoad() {
+			//是否已经pick过
+			const leftOb = uni.getStorageSync('leftOb');
+			console.log(typeof leftOb)
+			if(leftOb) {
+				uni.redirectTo({
+					url: '/pages/home/home'
+				})
+			}
+			
+			//初始化节目数据
 			const db = wx.cloud.database()
 			db.collection('programs').field({
 				_id: true,
@@ -89,7 +99,7 @@
 				imgUrl: true,
 				disc: true
 			}).get().then(res => {
-				console.log(res)
+				// console.log(res)
 				this.programs = res.data.map(item => {
 					item.ob = 0
 					return item
@@ -98,8 +108,10 @@
 		},
 		methods: {
 			handleChange(e){
-				this.curProgress = e.detail.current * 9.0909
+				this.curProgress = e.detail.current * 10
 			},
+			
+			//减少1个投币
 			decrease(e){
 				const index = e.currentTarget.dataset.index
 				if(this.programs[index].ob>0 ){
@@ -110,6 +122,8 @@
 					})
 				}
 			},
+			
+			//增加1个投币
 			increase(e){
 				const index = e.currentTarget.dataset.index
 				if(this.leftOb>0){
@@ -120,6 +134,8 @@
 					})
 				}
 			},
+			
+			//提交前弹窗提醒
 			onEnd(){
 				Dialog.confirm({
 					title: "结束节目竞猜",
@@ -127,27 +143,41 @@
 					cancelButtonText: '再想想',
 				})	
 			},
-			onConfirm(){
-				const oppoer = JSON.parse(uni.getStorageSync('oppoer'))
-				const picks = this.picks.map(item => {
+			
+			//提交pick结果
+			async onConfirm(){
+				//装载payload
+				let picks = this.picks.map(item => {
 					const { programId, title, ob } = item
 					return {
 						programId,
 						title,
 						ob: +ob
 					}
-				})
-				const db = wx.cloud.database();
+				});
+				let leftOb = this.leftOb;
+				const stopPick = (await this.getFlags()).data.stopPick;
+				if(stopPick){
+					picks = [];
+					leftOb = 10;
+				}
+				
+				//上传gamble数据
+				const oppoer = JSON.parse(uni.getStorageSync('oppoer'));
 				const filt = oppoer.klass==='欧爸'?{name: oppoer.name, jobNumber:oppoer.jobNumber}:{name:oppoer.name, klass:oppoer.klass}
+				const db = wx.cloud.database();
 				db.collection('users').where(filt).get().then(res => {
-					console.log(res)
+					// console.log(res)
 					db.collection('users').doc(res.data[0]._id).update({
 						data: {
 							picks,
-							ob: this.leftOb,
+							ob: leftOb,
 						}
 					}).then(res => {
-						console.log(res)
+						uni.setStorage({
+							key: 'leftOb',
+							data: leftOb
+						})
 						uni.redirectTo({
 							url: `/pages/home/home`,
 						})
@@ -157,8 +187,16 @@
 				})
 				
 			},
+			
+			//进度条改变后同步swiper
 			progressChange(e){
-				this.curProg = Math.round(e.detail/9.0909)
+				this.curProg = Math.round(e.detail/10)
+			},
+			
+			//拿到标志变量
+			getFlags() {
+				const db = wx.cloud.database();
+				return db.collection('flags').doc('8a2bdccf-2e39-4322-862d-291a68c84636').get();
 			}
 		}
 	}

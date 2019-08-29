@@ -22,6 +22,13 @@
 		},
 		
 		onLoad(query) {
+			const voteProgram = uni.getStorageSync('voteProgram');
+			if(voteProgram){
+				uni.redirectTo({
+					url: `/pages/ace/ace?id=${voteProgram}`
+				})
+			}
+			
 			// this.programs = JSON.parse(uni.getStorageSync('programs'))
 			const db = wx.cloud.database()
 			db.collection('programs').field({
@@ -60,19 +67,41 @@
 					url: `/pages/pickDetail/pickDetail?id=${id}`,
 				});
 			},
-			onVote(e) {
-				// console.log("onvote: ", this.voteProgram)
+			async onVote(e) {
 				const { klass } = JSON.parse(uni.getStorageSync('oppoer'))
-				wx.cloud.callFunction({
-					name: 'vote',
-					data: {
-						klass,
-						_id: this.voteProgram
-					}
-				})
-				uni.navigateTo({
-					url: `/pages/ace/ace?id=${this.voteProgram}`
-				})
+				const stopVote = (await this.getFlags()).data.stopVote;
+				if(stopVote) {
+					uni.setStorage({
+						key: 'voteProgram',
+						data: this.voteProgram
+					});
+					uni.redirectTo({
+						url: `/pages/ace/ace?id=${this.voteProgram}`
+					})
+				} else {
+					wx.cloud.callFunction({
+						name: 'vote',
+						data: {
+							klass,
+							_id: this.voteProgram
+						}
+					}).then(res => {
+						// 标志变量 voted 存本地
+						uni.setStorage({
+							key: 'voteProgram',
+							data: this.voteProgram
+						});
+						uni.redirectTo({
+							url: `/pages/ace/ace?id=${this.voteProgram}`
+						})
+					})
+				}
+			},
+			
+			//拿到标志变量
+			getFlags() {
+				const db = wx.cloud.database();
+				return db.collection('flags').doc('8a2bdccf-2e39-4322-862d-291a68c84636').get();
 			}
 		}
 	}
