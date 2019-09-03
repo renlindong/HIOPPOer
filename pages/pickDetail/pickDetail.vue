@@ -1,14 +1,17 @@
 <template>
-	<view class="main">
-		<view class="wrapper">
-			<image :src="program.imgUrl" mode=""></image>
-			<view class="program-title">
-				{{program.title}}
+	<view>
+		<image class="bgImg" :src="images.bg"></image>
+		<view class="main">
+			<view class="wrapper">
+				<image :src="program.imgUrl" mode=""></image>
+				<view class="program-title">
+					{{program.title}}:
+				</view>
+				<view class="program-disc">
+					{{program.disc}}
+				</view>
+				<button @tap="onPick" >投票</button>
 			</view>
-			<view class="program-disc">
-				{{program.disc}}
-			</view>
-			<button @tap="onPick" >PICK</button>
 		</view>
 	</view>
 </template>
@@ -17,7 +20,10 @@
 	export default {
 		data() {
 			return {
-				program: {}
+				program: {},
+				images: {
+					bg: '../../static/background.png',
+				}
 			};
 		},
 		onLoad(query) {
@@ -44,55 +50,60 @@
 	}
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
+.bgImg {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	z-index: -123;
+}
 .main {
-	height: 80vh;
-	padding: 6vh 60upx 60upx 60upx;
-	display: flex;
-	justify-content: center;
+	height: 100vh;
+	width: 100vw;
+	padding: 13.4vh 10.2vw 23.4vh 10.2vw;
+	box-sizing: border-box;
 }
 .wrapper {
-	width: 80%;
-	padding: 0upx 50upx;
+	width: 100%;
 	height: 100%;
-	background-color: #f6f6f6;
+	padding-top: 4.3vh;
+	padding-left: 11.9vw;
+	box-sizing: border-box;
+	background-color: rgba(36,255,114,0.4);
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	position: relative;
 	image {
-		width: 450upx;
-		height: 350upx;
-		margin-top: 50upx;
+		width: 53.9vw;
+		height: 15.6vh;
+		margin-bottom: 3.2vh;
 	};
 	button {
 		position: absolute;
-		right: 80upx;
-		bottom: 50upx;
-		height: 50upx;
-		width: 120upx;
+		right: 12.3vw;
+		bottom: 8vh;
+		height: 3.5vh;
+		width: 14.4vw;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		background-color: #dbfeeb;
-		color: #15faa7;
-		:after {
-			border: 1upx solid #15faa7
-		}
+		background-color: rgba(36,255,114,0.4);
+		color: rgba(36,255,114,1);
+		border-radius: 2upx;
+		font-size: 1.8vh;
 	}
 }
 .program-title {
-	font-size: 0.9em;
-	font-weight: 700;
-	margin-top: 60upx;
-	margin-bottom: 15upx;
+	font-size: 1.9vh;
+	color: rgba(36,255,114,1);
+	margin-bottom: 1.2vh;
 }
 .program-disc {
-	font-size: 0.7em;
-	font-weight: 400;
-	width: 450upx;
-	margin-bottom: 30upx;
-	color: #636366;
-	flex-grow: 1;
+	font-size: 1.7vh;
+	width: 53.9vw;
+	color: rgba(36,255,114,.8);
+	letter-spacing: 0;
+	text-align: justify;
+	line-height: 2em;
 }
 </style>
