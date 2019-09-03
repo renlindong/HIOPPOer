@@ -1,13 +1,17 @@
 <template>
-	<view class="container">
-		<view class="cards">
-			<view class="card" v-for="(item,index) in programs" :key="item.programId">
-				<image @tap="openCard" :src="item.imgUrl" mode="" alt="item.title" :data-id="item._id"></image>
-				<text>{{item.title}}</text>
-				<button @tap="onpick" :data-id="item._id">PICK</button>
+	<view>
+		<image class="bgImg" :src="images.bg"></image>
+		<view class="layer"></view>
+		<view class="container">
+			<view class="cards">
+				<view class="card" v-for="(item,index) in programs" :key="item.programId">
+					<image @tap="openCard" :src="item.imgUrl" mode="" alt="item.title" :data-id="item._id"></image>
+					<text>{{item.title}}</text>
+					<view class="btn-vote" @tap="onpick" :data-id="item._id">投票</view>
+				</view>
 			</view>
+			<van-dialog @confirm="onVote" id="van-dialog" />
 		</view>
-		<van-dialog @confirm="onVote" id="van-dialog" />
 	</view>
 </template>
 
@@ -17,7 +21,10 @@
 		data() {
 			return {
 				programs: [],
-				voteProgram: ''
+				voteProgram: '',
+				images: {
+					bg: '../../static/background.png',
+				},
 			};
 		},
 		
@@ -51,6 +58,7 @@
 		
 		methods: {
 			onpick(e){
+				console.log('toupiao...')
 				const { klass } = JSON.parse(uni.getStorageSync('oppoer'))
 				Dialog.confirm({
 					message: `${klass==='欧爸'?'欧爸有50票，一旦投票无法更改':'每人仅有一票且无法更改'}，您确定要投票吗？`,
@@ -107,43 +115,54 @@
 	}
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
+	.bgImg {
+		position: fixed;
+		width: 100vw;
+		height: 100vh;
+		z-index: -123;
+	}
+	.layer {
+		position: fixed;
+		width: 100vw;
+		height: 100vh;
+		z-index: -120;
+		background-color: rgba($color: #000000, $alpha: 0.6);
+	}
 	.cards{
 		display: flex;
 		flex-wrap: wrap;
 		align-content: center;
-		padding-top: 20upx;
+		padding-top: 6.3vh;
 	}
 	.card{
-		width: 40%;
-		height: 380upx;
+		width: 34.5vw;
+		height: 21.6vh;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		margin-left: 7%;
-		margin-top: 30upx;
-		padding-top: 30upx;
-		background-color: #ececec;
-		border-radius: 10upx 10upx 40upx 10upx;
+		margin-left: 10vw;
+		margin-bottom: 3.3vh;
+		padding-top: 1.8vh;
+		background: rgba(36,255,114,0.40);
 		image {
-			width: 85%;
-			height: 240upx;
-			margin-bottom: 10upx;
+			width: 27.9vw;
+			height: 10.5vh;
+			margin-bottom: 1.65vh;
 		};
 		text {
-			font-size: 0.8em;
+			font-size: 1.8vh;
+			color: #24FF72;
 		};
-		button {
-			width: 50%;
-			height: 1.5em;
-			line-height: 1.5em;
-			background-color: #d8d8d8;
-			color: black;
-			margin-top: 15upx;
+		.btn-vote {
+			width: 18.33vw;
+			height: 3.5vh;
+			line-height: 3.5vh;
+			background-color: rgba($color: #24FF72, $alpha: .4);
+			color: rgba($color: #24FF72, $alpha: 1);
+			margin-top: 1.35vh;
+			text-align: center;
+			font-size: 1.8vh;
 		};
-		button::after {
-			border: none
-		}
-		
 	}
 </style>

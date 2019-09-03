@@ -1,38 +1,52 @@
 <template>
-	<view class="container">
-		<view class="top3">
-			<view class="pwrapper">
-				<view class="circle">
-					2
+	<view>
+		<image class="bgImg" :src="images.bg"></image>
+		<view class="layer"></view>
+		<view class="container">
+			<view class="top3">
+				<view class="pwrapper">
+					<view :class="'no2 '+classes[1]">
+						<text class="number">
+							2
+						</text>
+						<text>{{programs[1].title}}</text>
+						<view class='top3-votes'>
+							<text class="number">{{programs[1].votes}}</text>
+							<text>票</text>
+						</view>
+					</view>
 				</view>
-				<view :class="'no2 '+classes[1]">
-					<text>{{programs[1].title}}</text>
-					<text>{{programs[1].votes}}票</text>
+				<view class="pwrapper">
+					<view :class="'no1 '+classes[0]">
+						<text class="number">
+							1
+						</text>
+						<text>{{programs[0].title}}</text>
+						<view class='top3-votes'>
+							<text class="number">{{programs[0].votes}}</text>
+							<text>票</text>
+						</view>
+						</view>
+				</view>
+				<view class="pwrapper">
+					<view :class="'no3 '+classes[2]">
+						<text class="number">
+							3
+						</text>
+						<text>{{programs[2].title}}</text>
+						<view class='top3-votes'>
+							<text class="number">{{programs[2].votes}}</text>
+							<text>票</text>
+						</view>
+						</view>
 				</view>
 			</view>
-			<view class="pwrapper">
-				<view class="circle">
-					1
-				</view>
-				<view :class="'no1 '+classes[0]">
-					<text>{{programs[0].title}}</text>
-					<text>{{programs[0].votes}}票</text>
-				</view>
+			<view :class="'program ' + 'program'+index%2 + ' ' +classes[index+3]" v-for="(item,index) in leftProgs" :key="item._id">
+				<text class="number">{{index+4}}</text>
+				<text class="title">{{item.title}}</text>
+				<text class="number">{{item.votes}}</text>
+				<text>票</text>
 			</view>
-			<view class="pwrapper">
-				<view class="circle">
-					3
-				</view>
-				<view :class="'no3 '+classes[2]">
-					<text>{{programs[2].title}}</text>
-					<text>{{programs[2].votes}}票</text>
-				</view>
-			</view>
-		</view>
-		<view :class="'program ' + 'program'+index%2 + ' ' +classes[index+3]" v-for="(item,index) in leftProgs" :key="item._id">
-			<text>{{index+4}}</text>
-			<text class="title">{{item.title}}</text>
-			<text>{{item.votes}}票</text>
 		</view>
 	</view>
 </template>
@@ -44,7 +58,10 @@
 				programs: [],
 				leftProgs: [],
 				voteProgram: "",
-				classes: []
+				classes: [],
+				images: {
+					bg: '../../static/background.png',
+				}
 			};
 		},
 		
@@ -69,82 +86,97 @@
 	}
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
+	.bgImg {
+		position: fixed;
+		width: 100vw;
+		height: 100vh;
+		z-index: -123;
+	}
+	.layer {
+		position: fixed;
+		width: 100vw;
+		height: 100vh;
+		z-index: -120;
+		background-color: rgba($color: #000000, $alpha: 0.6);
+	}
 	.container {
 		height: 100vh;
+		width: 100vw;
+		padding-top: 11.2vh;
+		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		font-size: 0.8em;
-		font-weight: 500;
+		font-size: 2vh;
+		color: rgba(36,255,114,1)
+	}
+	.number {
+		font-size: 5vw;
 	}
 	.top3 {
-		height: 300upx;
+		height: 16vh;
 		display: flex;
-		
+	}
+	.top3-votes {
+		display: flex;
+		align-items: center;
 	}
 	.pwrapper {
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-end;
 		align-items: center;
-	}
-	.circle {
-		border-radius: 50%;
-		width: 100upx;
-		height: 100upx;
-		position: relative;
-		top: 50upx;
-		background-color: #ececec;
-		display: flex;
-		align-items: center;
-		justify-content: center;
+		> view {
+			width: 26.7vw;
+		}
 	}
 	.no2 {
-		width: 0.28*750upx;
-		height: 110upx;
-		background-color: #d8d8d8;
-		padding-top: 50upx;
+		height: 10vh;
+		background-color: rgba(36,255,114,0.32);
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		justify-content: space-around;
 	}
 	.no1 {
-		width: 186upx;
-		height: 160upx;
-		background-color: #c2c2c2;
-		padding-top: 50upx;
+		height: 16vh;
+		background-color: rgba(36,255,114,0.9);
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		color: white;
+		justify-content: space-around;
 	}
 	.no3 {
-		width: 0.28*750upx;
-		height: 80upx;
-		background-color: #d8d8d8;
-		padding-top: 50upx;
+		height: 13vh;
+		background-color: rgba(36,255,114,0.7);
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		justify-content: space-around;
 	}
 	.program {
-		width: 80%;
-		height: 8%;
+		box-sizing: border-box;
+		width: 80vw;
+		height: 8vh;
 		display: flex;
 		align-items: center;
-		padding-left: 6upx;
+		padding-left: 6.1vw;
+		padding-right: 6.1vw;
 		.title {
 			margin-left: 6upx;
 			flex-grow: 1;
 		}
 	}
 	.program0 {
-		background-color: #ececec;
+		background-color: rgba(36,255,114,0.4);
 	}
 	.program1 {
-		background-color: #d8d8d8;
+		background-color: rgba(36,255,114,0.35);
 	}
 	.programMine {
-		background-color: #00ff4b;
+		box-sizing: border-box;
+		border: 9upx solid rgba(36,255,114,1);
 	}
 </style>

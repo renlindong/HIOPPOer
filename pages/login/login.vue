@@ -1,25 +1,23 @@
 <template>
-	<view class="main">
-		<image class="background-img" src="../../static/images/login-page-background.png"></image>
-		<view class="title">O币大作战</view>
-		<view class="wrapper">
-			<text>姓名</text>
-		    <input required type="text" v-model="name" />
+	<view>
+		<image class="bgImg" :src="images.bg"></image>
+		<view @click="this.showPicker=false" v-if="showPicker" class="layer"></view>
+		<view class="main">
+			<image class="form-bg" :src="images.form"></image>
+			<input class="input-name" required type="text" v-model="name" />
+			<view @click="showPicker=true" class="picker">{{array[index]}}</view>
+			<image :src="images.start" class="start" @click="onStart"></image>
 		</view>
-		<view class="wrapper">
-		    <text>班级</text>
-			<picker @change="bindPickerChange" :value="index" :range="array">
-				<view class="picker">
-				  {{array[index]}}
-				</view>
-			</picker>
-		</view>
-		<view v-if="index==7" class="wrapper">
-			<text>工号</text>
-		    <input required type="text" v-model="jobNumber" />
-		</view>
-		<button class="start" @click="onStart">加入作战</button>
+		<van-picker
+			v-if="showPicker"
+			show-toolbar
+			title="选择你的班级" 
+			@cancel="this.showPicker=false"
+			@confirm="onConfirm" 
+			:columns="array">
+		</van-picker>
 	</view>
+	
 </template>
 
 <script>
@@ -29,8 +27,12 @@
 				name: "",
 				array: ['一班','二班','三班','四班','五班','六班','七班','欧爸'],
 				index: 0,
-				jobNumber: '',
-				background: ''
+				images: {
+					bg: '../../static/login-page-background.png',
+					form: '../../static/login-form.png',
+					start: '../../static/icon_start.png',
+				},
+				showPicker: false
 			};
 		},
 		onLoad() {
@@ -42,43 +44,34 @@
 			}
 		},
 		methods:{
-			bindPickerChange(e) {
-			    this.index = e.detail.value
+			clickLayer(e) {
+				console.log(e)
+				// if(e.)
+			},
+			onConfirm(e) {
+			    this.index = +e.detail.index;
+				this.showPicker = false;
 			},
 			onStart(){
-				let { name, jobNumber, index} = this
-				let klass = this.array[this.index]
-				uni.showLoading({
-					title: "加载中..."
-				})
+				let { name, index } = this;
+				let klass = this.array[this.index];
 				wx.cloud.callFunction({
 					name: 'login',
-					data: {name, klass, jobNumber},
+					data: { name, klass },
 					success(res) {
 						if(res.result.errCode===1) {
 							console.log(res.result.errMessage)
 							wx.showToast({
-								title: index===7?'姓名或工号错误':'姓名或班级错误',
+								title: index===7?'您似乎不在“欧爸”阵营中，请再次核对班级':'姓名或班级错误',
 								icon: 'none'
 							})
 						} else if (res.result.errCode===0) {
 							// console.log('success', res.errMessage)
-							const oppoer = JSON.stringify({name, klass, jobNumber})
-							try{
-								uni.setStorageSync('oppoer', oppoer)
-							}catch(e){
-								//TODO handle the exception
-								console.log(e)
-							}
+							const oppoer = JSON.stringify({name, klass })
+							uni.setStorageSync('oppoer', oppoer)
 							uni.redirectTo({
 								url: '/pages/gamble/gamble',
 							});
-						} else if (res.result.errCode===2) {
-							console.log(res.result.errMessage)
-							wx.showToast({
-								title: '您似乎不在“欧爸”阵营中，请再次核对班级',
-								icon: 'none'
-							})
 						}
 					},
 					fail: (res)=>{
@@ -94,59 +87,57 @@
 	}
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
+	.layer {
+		position: fixed;
+		width: 100vw;
+		height: 100vh;
+		z-index: 1;
+		background-color: rgba($color: #000000, $alpha: 0.6);
+	}
 	.main {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-	}
-	
-	.background-img {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		z-index: -1;
-	}
-	
-	.title {
-		font-size: 50upx;
+		font-size: 30upx;
 		font-weight: 600;
-		padding: 40% 0;
+		color: #20d05e;
+		text-align: center;
 	}
-	
-	.wrapper {
-		display: flex;
-		justify-content: center;
-		input {
-			border-bottom: 1px solid black;
-			width: 200upx;
-			margin-left: 15upx;
-			position: relative;
-			bottom: 12upx;
-			font-size: 30upx;
-			text-align: center;
-		};
-		picker {
-			border-bottom: 1px solid black;
-			width: 200upx;
-			margin-left: 15upx;
-			font-size: 30upx;
-			text-align: center;
-		};
-		font-size: 35upx;
-		margin-bottom: 20upx;
+	.form-bg {
+		position: fixed;
+		height: 30.6vh;
+		width: 80.5vw;
+		top: 38.8vh;
+		left: 9.9vw;
 	}
-	
+	.bgImg {
+		position: fixed;
+		width: 100vw;
+		height: 100vh;
+		z-index: -123;
+	}
+	.input-name {
+		position: fixed;
+		top: 44vh;
+		left: 30vw;
+		width: 50vw;
+	}
+	.picker {
+		position: fixed;
+		top: 52vh;
+		left: 30vw;
+		// border: 1px solid black;
+		width: 50vw;
+		height: 1.4rem;
+		line-height: 1.4rem;
+	}
 	.start {
-		border: 1px solid #09fd7a;
-		margin-top: 30upx;
-		background-color: #dbfeeb;
-		color: #09fd7a;
-		width: 280upx;
-		height: 60upx;
-		line-height: 1.5em;
+		width: 62vw;
+		height: 7.5vh;
+		position: fixed;
+		top: 60vh;
+		left: 19vw;
 	}
 	
 </style>
