@@ -20,7 +20,7 @@ VantComponent({
             }
         } }),
     beforeCreate() {
-        this.children = [];
+      this.children = [];
     },
     methods: {
         noop() { },

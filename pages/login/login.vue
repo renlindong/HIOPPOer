@@ -12,7 +12,7 @@
 			v-if="showPicker"
 			show-toolbar
 			title="选择你的班级" 
-			@cancel="this.showPicker=false"
+			@cancel="showPicker=false"
 			@confirm="onConfirm" 
 			:columns="array">
 		</van-picker>
@@ -28,9 +28,9 @@
 				array: ['一班','二班','三班','四班','五班','六班','七班','欧爸'],
 				index: 0,
 				images: {
-					bg: '../../static/login-page-background.png',
-					form: '../../static/login-form.png',
-					start: '../../static/icon_start.png',
+					bg: '../../static/images/login-page-background.png',
+					form: '../../static/images/login-form.png',
+					start: '../../static/images/icon_start.png',
 				},
 				showPicker: false
 			};

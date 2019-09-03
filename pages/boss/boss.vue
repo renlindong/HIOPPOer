@@ -36,6 +36,7 @@
 			<button @click="handleSubmit" class="submit-btn" type="primary" size="mini">提交</button>
 		</view>
 		<van-toast id="van-toast" />
+		<van-dialog @confirm="onVote" id="van-dialog" />
 	</view>
 </template>
 
@@ -82,7 +83,7 @@
 							mask: true,
 							duration: 0,
 							forbidClick: true,
-							message: '等待中...'
+							message: '等待中....'
 						})
 						wx.cloud.callFunction({
 							name: 'answerBoss',

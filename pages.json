@@ -25,7 +25,8 @@
 			"style": {
 				"navigationBarTitleText": "谁是大BOSS",
 				"usingComponents": {
-				  "van-toast": "/wxcomponents/vant-weapp/toast/index"
+				  "van-toast": "/wxcomponents/vant-weapp/toast/index",
+					"van-dialog": "/wxcomponents/vant-weapp/dialog/index"
 				}
 			}
 		}, {
@@ -50,15 +51,6 @@
 					"van-dialog": "/wxcomponents/vant-weapp/dialog/index"
 				}
 			}
-<<<<<<< HEAD
-		}, {
-			"path": "pages/ace/ace",
-			"style": {}
-		}, {
-			"path": "pages/pickDetail/pickDetail",
-			"style": {}
-		}
-=======
         }
         ,{
             "path" : "pages/ace/ace",
@@ -72,7 +64,6 @@
 				"navigationBarTitleText": "最佳节目详情"
 			}
         }
->>>>>>> 7f06526c78b1fb663cdacd66f4f65e2a74a261f8
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
