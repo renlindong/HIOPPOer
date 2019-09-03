@@ -8,7 +8,7 @@
 		
 		},
 		onShow: function() {
-			console.log('App Shssow')
+			console.log('App Ssshssow')
 		},
 		onHide: function() {
 			console.log('App Hissde')

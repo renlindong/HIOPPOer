@@ -1,5 +1,6 @@
 <template>
 	<view class="main">
+		<image class="background-img" src="../../static/images/login-page-background.png"></image>
 		<view class="title">O币大作战</view>
 		<view class="wrapper">
 			<text>姓名</text>
@@ -29,6 +30,7 @@
 				array: ['一班','二班','三班','四班','五班','六班','七班','欧爸'],
 				index: 0,
 				jobNumber: '',
+				background: ''
 			};
 		},
 		onLoad() {
@@ -46,6 +48,9 @@
 			onStart(){
 				let { name, jobNumber, index} = this
 				let klass = this.array[this.index]
+				uni.showLoading({
+					title: "加载中..."
+				})
 				wx.cloud.callFunction({
 					name: 'login',
 					data: {name, klass, jobNumber},
@@ -94,6 +99,15 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+	}
+	
+	.background-img {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
 	}
 	
 	.title {

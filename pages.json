@@ -9,10 +9,13 @@
 		{
 			"path": "pages/home/home",
 			"style": {
-				"navigationBarTitleText": "O币大作战"
+				"navigationBarTitleText": "O币大作战",
+				"usingComponents": {
+				  "van-toast": "/wxcomponents/vant-weapp/toast/index"
+				}
 			}
 		},
-	 {
+		{
 			"path": "pages/record/record",
 			"style": {
 				"navigationBarTitleText": "O币大作战"
@@ -20,41 +23,40 @@
 		}, {
 			"path": "pages/boss/boss",
 			"style": {
-				"navigationBarTitleText": "谁是大BOSS"
+				"navigationBarTitleText": "谁是大BOSS",
+				"usingComponents": {
+				  "van-toast": "/wxcomponents/vant-weapp/toast/index"
+				}
 			}
 		}, {
 			"path": "pages/store/store",
 			"style": {
 				"navigationBarTitleText": "O币商店"
 			}
-		}
-	    ,{
-            "path" : "pages/gamble/gamble",
-            "style" : {
+		}, {
+			"path": "pages/gamble/gamble",
+			"style": {
 				"navigationBarTitleText": "Pick你所爱",
 				"usingComponents": {
 					"van-dialog": "/wxcomponents/vant-weapp/dialog/index",
 					"van-slider": "/wxcomponents/vant-weapp/slider/index"
 				}
 			}
-        }
-        ,{
-            "path" : "pages/vote/vote",
-            "style": {
+		}, {
+			"path": "pages/vote/vote",
+			"style": {
 				"navigationBarTitleText": "最佳节目",
 				"usingComponents": {
 					"van-dialog": "/wxcomponents/vant-weapp/dialog/index"
 				}
 			}
-        }
-        ,{
-            "path" : "pages/ace/ace",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/pickDetail/pickDetail",
-            "style" : {}
-        }
+		}, {
+			"path": "pages/ace/ace",
+			"style": {}
+		}, {
+			"path": "pages/pickDetail/pickDetail",
+			"style": {}
+		}
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -62,14 +64,12 @@
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	},
-	"condition" : { //模式配置，仅开发期间生效
+	"condition": { //模式配置，仅开发期间生效
 		"current": 0, //当前激活的模式(list 的索引项)
-		"list": [
-			{
-				"name": "", //模式名称
-				"path": "", //启动页面，必选
-				"query": "" //启动参数，在页面的onLoad函数里面得到
-			}
-		]
+		"list": [{
+			"name": "", //模式名称
+			"path": "", //启动页面，必选
+			"query": "" //启动参数，在页面的onLoad函数里面得到
+		}]
 	}
 }

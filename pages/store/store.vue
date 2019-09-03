@@ -1,57 +1,73 @@
 <template>
 	<view class="container">
-		<view class="header">
-			排名 2/1000
-		</view>
-		<view class="content">
-			<view class="content-item" v-for="(award, index) in awardList" :key="award.name">
-				<view class="content-item-rank">{{ index + 1 }}</view>
-				<view class="content-item-img"></view>
-				<text class="content-item-name">{{ award.name }}</text>
-				<view class="content-item-bar"></view>
+		<image class="background-img" src="../../static/images/background.png" mode=""></image>
+		<view class="content-wrap">
+			<view class="rank-info">
+				<text>排名：132</text>
+				<text>/1232</text>
+			</view>
+			<view class="award-list">
+				<view 
+					:class="[awardListClass[index]]"
+					v-for="(award, index) in awardList"
+					:key="award.img">
+					<view 
+						:class="['award-list-item-rank', index % 2 === 0 ? `award-list-item-rank--even` : `award-list-item-rank--odd`]"
+						>{{ index + 1 }}</view>
+					<view 
+						:class="['award-list-item-img', index % 2 === 0 ? `award-list-item-img--even` : `award-list-item-img--odd`]"
+						></view>
+				</view>
+				<view class="award-list-last-item"></view>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
-	import users from '../../user.json'
 	export default {
 		data() {
 			return {
-				rank: 1,
-				amount: 100,
 				awardList: [
 					{
-						img: '',
-						name: 'reno',
+						img: '1',
 					},
 					{
-						img: '',
-						name: '一把遮阳伞呀'
+						img: '2',
 					},
 					{
-						img: '',
-						name: '自拍神器'
+						img: '3',
 					}
-				]
+				],
+				currentRank: 4
 			}
 		},
 		computed: {
-			
+			awardListClass() {
+				let base = 'award-list-item'
+				return this.awardList.map((item, index) => {
+					return [
+						base,
+						index % 2 === 0 ? `${base}--even` : `${base}--odd`,
+						this.currentRank === index ? `${base}--active]` : ''
+					]
+				})
+			}
 		},
 		onLoad() {
-			console.log(users)
-			this.init()
+			wx.cloud.callFunction({
+				name: 'checkRank',
+				success: function (res) {
+					console.log(res)
+				},
+				fail: function (res) {
+					console.log(res)
+				}
+			})
 		},
 		methods: {
 			init() {
-				let ob = uni.getStorageSync('leftOb')
-				this.balance = ob
 				
-				wx.cloud.callFunction({
-					name: 'checkRank'
-				})
 			}
 		}
 	}
@@ -59,62 +75,98 @@
 
 <style lang="scss">
 	.container {
-		padding: 0 60rpx;
-		.header {
-			text-align: right;
-			line-height: 50rpx;
+		width: 100%;
+		height: 100%;
+		box-sizing: border-box;
+		.background-img {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: -1;
 		}
-		.content {
-			&-item {
-				border-radius: 16rpx;
-				height: 300rpx;
-				background-color: #ccc;
-				padding: 30rpx 0 30rpx 30rpx;
-				margin-top: 59rpx;
-				box-sizing: border-box;
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-				position: relative;
+		
+		.content-wrap {
+			padding-top: 4.77vh;
+			.rank-info {
+				margin-right: 4.77vh;
+				text-align: right;
+				& > text:nth-child(1) {
+					color: #24FF72;
+				}
 				
-				&-img {
-					border-radius: 16rpx;
-					background-color: #fff;
-					width: 350rpx;
-					height: 100%;
-				}
-				&-name {
-					flex: 1;
-					text-align: center;
-				}
-				&-rank {
-					width: 50rpx;
-					height: 50rpx;
-					border-radius: 50%;
-					text-align: center;
-					color: red;
-					background-color: blue;
-					position: absolute;
-					top: 0;
-					left: 0;
-					margin-left: -10rpx;
-					margin-top: -10rpx;
-				}
-				&-bar {
-					position: absolute;
-					width: 40rpx;
-					height: 60rpx;
-					background-color: red;
-					left: 50%;
-					bottom: 0;
-					margin-left: -20rpx;
-					margin-bottom: -59rpx;
+				& > text:nth-child(2) {
+					color: #3A8655;
 				}
 			}
-			&-item:last-child {
-				.content-item-bar {
-					display: none;
+			
+			.award-list {
+				padding: 3.82vh 9.72vw 0;
+				height: 83.52vh;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				
+				&-item {
+					width: 100%;
+					flex: 1;
+					margin-bottom: 2.38vh;
+					background-color: #24FF72;
+					position: relative;
+					
+					&--even {
+						border-top-left-radius: 4.12vh;
+					}
+					
+					&--odd {
+						border-top-right-radius: 4.12vh;
+					}
+					
+					&-rank {
+						position: absolute;
+						top: 0;
+						width: 8.24vh;
+						height: 8.24vh;
+						border-radius: 50%;
+						background-color: #333;
+						color: #fff;
+						text-align: center;
+						line-height: 8.24vh;
+						&--even {
+							left: 0;
+						}
+						
+						&--odd {
+							right: 0;
+						}
+					}
+					
+					&-img {
+						position: absolute;
+						top: 50%;
+						transform: translate(0, -50%);
+						background-color: #333333;
+						width: 39.16vw;
+						height: 14.94vh;
+						
+						&--even {
+							right: 5.55vw;
+						}
+						
+						&--odd {
+							left: 5.55vw;
+						}
+					}
 				}
+				
+				&-last-item {
+					width: 100%;
+					height: 14.32vh;
+					background-color: #24FF72;
+					opacity: 0.4;
+				}
+				
 			}
 		}
 	}
