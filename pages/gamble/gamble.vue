@@ -1,71 +1,62 @@
 <template>
 	<view>
-		<swiper
-			:current="curProg"
-			previous-margin="60rpx"
-			next-margin="60rpx"
-			@change="handleChange"
-		>
-			<swiper-item class="intro" :index='0'>
-				<view class="wrapper">
-					<view class="intro-title">Pick你所爱</view>
-					<view class="intro-content">
-						玩家们的初始资金为10枚O币。在本环节中，根据个节目介绍用O币竞猜本场晚会的“最佳节目Top3”。
+		<image class="bgImg" :src="images.bg"></image>
+		<view class="layer"></view>
+		<view class="intro">
+			<view class="intro-title">Pick你所爱：</view>
+			<view class="intro-content">玩家初始资金为15枚欧币，请在晚会开始前根据节目花絮选择你心中的最佳节目（不限数量）并投资，晚会过程中将通过公投的形式选出“最佳节目Top3”。</view>
+			<view class="intro-content">如果投资的节目获得第一名将获得预投资额度的8倍的收益，第二名为5倍收益，第三名为3倍。</view>
+		</view>
+		<view class="main">
+			<swiper
+				:current="curProg"
+				previous-margin="60rpx"
+				next-margin="60rpx"
+				@change="handleChange"
+			>
+				<swiper-item class="program" v-for="(item,index) in programs" :key="index" :index="index">
+					<view class="wrapper">
+						<image :src="item.imgUrl"></image>
+						<view class="program-title">
+							{{item.title}}
+						</view>
+						<view class="program-disc">
+							{{item.disc}}
+						</view>
+						<view class="buttons">
+							<image :src="images.minus" class="button" @tap="decrease" :data-index="index"></image>
+							<text>{{item.ob}}</text>
+							<image :src="images.add" class="button" @tap="increase" :data-index="index"></image>
+						</view>
+						<text class="left">剩余： {{leftOb}}枚</text>
 					</view>
-					<view class="intro-content">
-						如果你pick到获得第一名的节目，则获得三倍投资O币。相应的，第二名为两倍，第三名为1.5倍。其余视为投资失败，不返还O币。
-					</view>					
-				</view>
-			</swiper-item>
-			<swiper-item class="program" v-for="(item,index) in programs" :key="index" :index="index+1">
-				<view class="wrapper">
-					<image :src="item.imgUrl" mode=""></image>
-					<view class="program-title">
-						{{item.title}}
-					</view>
-					<view class="program-disc">
-						{{item.disc}}
-					</view>
-					<view class="buttons">
-						<view class="button" @tap="decrease" :data-index="index">-</view>
-						<text>{{item.ob}}</text>
-						<view class="button" @tap="increase" :data-index="index">+</view>
-					</view>
-					<text class="left">剩余{{leftOb}}枚</text>
-				</view>
-			</swiper-item>
-			<swiper-item class="end" :index='10'>
-				<view class="wrapper">
-					<view class="intro-title">我的Pick</view>
-					<view class="picks" v-for="(item,index) in picks" :key="index">
-						<view class="pick">
-							<text>{{item.title}}</text>
-							<text>{{item.ob}}OB</text>
+				</swiper-item>
+				<swiper-item class="end" :index='9'>
+					<view class="wrapper">
+						<view class="mypick">我的Pick</view>
+						<view class="picks" v-for="(item,index) in picks" :key="index">
+							<view class="pick">
+								<text>{{item.title}}</text>
+								<text>{{item.ob}}OB</text>
+							</view>
+						</view>
+						<view class="btnEnd" @tap="onEnd" >结束竞猜</view>
+						<view class="left endLeft">
+							剩余：{{leftOb}}枚
 						</view>
 					</view>
-					<view class="grow">
-						<br/>
-					</view>
-					<view class="left endLeft">
-						剩余{{leftOb}}枚O币
-					</view>
-					<button class="btnEnd" @tap="onEnd" >结束竞猜</button>
+				</swiper-item>
+			</swiper>
+			<view class="footer">
+				<view @click="clickIcon(index)" class="icon-wrapper" v-for="(icon, index) in images.icons" :key="index">
+					<image :src="icon" class="icon" :class="curProg===index?'active-icon':''"></image>
 				</view>
-			</swiper-item>
-		</swiper>
-		<view class="slider-wrapper">
-			<van-slider 
-			bar-height="10rpx" 
-			step="10" 
-			active-color="#ffffff" 
-			inactive-color="#ffffff" 
-			@change="progressChange" 
-			:value="curProgress"
-			class="progress"
-			/>
+			</view>
+			<view class="icon-bar" :style="'left:'+barLeft+'vw'"> </view>
+			<van-dialog @confirm="onConfirm" id="van-dialog" />
 		</view>
-		<van-dialog @confirm="onConfirm" id="van-dialog" />
 	</view>
+	
 </template>
 
 <script>
@@ -76,9 +67,31 @@
 				curProg: 0,
 				curProgress: 0,
 				programs: [],
-				leftOb: 10,
-				picks: []
+				leftOb: 15,
+				picks: [],
+				images: {
+					bg: '../../static/images/gamble-bg.png',
+					minus: '../../static/images/minus.png',
+					add: '../../static/images/add.png',
+					icons: [
+						'../../static/images/B01icon1.png',
+						'../../static/images/B01icon2.png',
+						'../../static/images/B01icon3.png',
+						'../../static/images/B01icon4.png',
+						'../../static/images/B01icon5.png',
+						'../../static/images/B01icon6.png',
+						'../../static/images/B01icon7.png',
+						'../../static/images/B01icon8.png',
+						'../../static/images/B01icon9.png',
+						'../../static/images/B01icon10.png',
+					]
+				}
 			};
+		},
+		computed: {
+			barLeft(){
+				return 9*(this.curProg)+7;
+			}
 		},
 		onLoad() {
 			//是否已经pick过
@@ -99,16 +112,16 @@
 				imgUrl: true,
 				disc: true
 			}).get().then(res => {
-				// console.log(res)
-				this.programs = res.data.map(item => {
+				this.programs = res.data.filter(item => item.programId!=='10').map(item => {
 					item.ob = 0
 					return item
-				})
+				});
+				uni.setStorageSync("programs", this.programs);
 			})
 		},
 		methods: {
 			handleChange(e){
-				this.curProgress = e.detail.current * 10
+				this.curProg = e.detail.current;
 			},
 			
 			//减少1个投币
@@ -159,15 +172,14 @@
 				const stopPick = (await this.getFlags()).data.stopPick;
 				if(stopPick){
 					picks = [];
-					leftOb = 10;
+					leftOb = 15;
 				}
 				
 				//上传gamble数据
 				const oppoer = JSON.parse(uni.getStorageSync('oppoer'));
-				const filt = oppoer.klass==='欧爸'?{name: oppoer.name, jobNumber:oppoer.jobNumber}:{name:oppoer.name, klass:oppoer.klass}
+				const filt = {name:oppoer.name, klass:oppoer.klass}
 				const db = wx.cloud.database();
 				db.collection('users').where(filt).get().then(res => {
-					// console.log(res)
 					db.collection('users').doc(res.data[0]._id).update({
 						data: {
 							picks,
@@ -189,8 +201,8 @@
 			},
 			
 			//进度条改变后同步swiper
-			progressChange(e){
-				this.curProg = Math.round(e.detail/10)
+			clickIcon(index){
+				this.curProg = index
 			},
 			
 			//拿到标志变量
@@ -203,8 +215,48 @@
 </script>
 
 <style lang="scss">
+.bgImg {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	z-index: -123;
+	top: 0;
+}
+.layer {
+	position: fixed;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: -120;
+	background-color: rgba($color: #000000, $alpha: 0.6);
+}
+.intro {
+	position: fixed;
+	top: 4vh;
+	left: 6vw;
+	width: 88vw;
+	color: rgba(36,255,114,1);
+	background-color: rgba(36,255,114,.4);
+	box-sizing: border-box;
+	padding: 3.3vh 8vw 2.6vh 8vw;
+}
+.intro-title {
+	margin-bottom: 1.3vh;
+	font-size: 2.2vh;
+	font-weight: 700;
+}
+.intro-content {
+	text-align: justify;
+	font-size: 2vh;
+	font-weight: 400;
+	width: 100%;
+	text-indent: 2em;
+}
+.main {
+	padding-top: 30vh;
+}
 swiper {
-	height: 80vh;
+	height: 50vh;
 	padding-top: 6vh;
 	display: flex;
 	justify-content: center;
@@ -218,84 +270,71 @@ swiper-item {
 	width: 80%;
 	padding: 0upx 50upx;
 	height: 100%;
-	background-color: #f6f6f6;
+	background-color: rgba(36,255,114,.6);
+	color: rgba(36,255,114,1);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	image {
-		width: 450upx;
-		height: 350upx;
-		margin-top: 50upx;
+	position: relative;
+	> image {
+		width: 53.9vw;
+		height: 15.6vh;
+		margin-top: 2.8vh;
+		border: 4px solid #FFFFFF;
 	}
 }
-.intro-title {
-	margin-top: 120upx;
-	margin-bottom: 60upx;
-	font-size: 0.9em;
-	font-weight: 700;
-}
-.intro-content {
-	color: #636366;
-	font-size: 0.8em;
-	font-weight: 400;
-	width: 80%;
-	text-indent: 2em;
-	letter-spacing: 4upx;
-	line-height: 1.5em;
-
-}
 .program-title {
-	font-size: 0.9em;
-	font-weight: 700;
-	margin-top: 60upx;
-	margin-bottom: 15upx;
+	font-size: 2.3vh;
+	font-weight: 600;
+	margin-top: 2.9vh;
+	margin-bottom: 0.8vh;
 }
 .program-disc {
-	font-size: 0.7em;
+	font-size: 2vh;
 	font-weight: 400;
-	width: 450upx;
-	margin-bottom: 30upx;
-	color: #636366;
+	width: 55.5vw;
 	flex-grow: 1;
+	text-align: justify;
 }
 .buttons {
 	display: flex;
-	height: 50upx;
+	height: 4vh;
 	text {
-		border: 1upx solid #999999;
+		border: 1px solid #24FF72;
 		display: flex;
+		box-sizing: border-box;
 		align-items: center;
 		justify-content: center;
-		height: 100%;
-		width: 70upx;
-		border-radius: 6upx;
-		margin: 0 30upx;
+		height: 4vh;
+		width: 16.7vw;
+		margin: 0 3vw;
+		background-color: rgba(36,255,114,.4);
 	}
 }
 .button {
-	border-radius: 50%;
-	width: 50upx;
-	height: 50upx;
-	font-size: 40upx;
-	background-color: #444444;
-	color: white;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	// border-radius: 3px;
+	width: 4vh;
+	height: 4vh;
 }
 .left {
-	margin-top: 10upx;
-	margin-bottom: 70upx;
-	font-size: 0.6em;
-	color:#C0C0C0;
+	margin-top: 1vh;
+	margin-bottom: 3vh;
+	font-size: 1.8vh;
+}
+.mypick {
+	margin-top: 4.4vh;
+	margin-left: 4.5vw;
+	font-size: 2.3vh;
+	font-weight: 500;
+	margin-bottom: 2vh;
 }
 .picks {
 	width: 80%;
+	padding-bottom: 1vh;
 }
 .pick {
-	font-size: 0.8em;
+	font-size: 2vh;
 	font-weight: 400;
-	color: #636366;
 	width: 100%;
 	display: flex
 	:first-child {
@@ -306,31 +345,54 @@ swiper-item {
 	flex-grow: 1;
 }
 .btnEnd {
-	background-color: #dbfeeb;
-	color: #15faa7;
-	:after {
-		border: 1upx solid #33fc90;
-	}
-	height: 70upx;
-	width: 300upx;
-	margin-bottom: 120upx;
-	margin-top: 10upx;
-	font-size: 0.9em;
+	background-color: rgba(36,255,114,.4);
+	color: rgba(36,255,114,1);
+	border: 1upx solid #24FF72;
+	height: 3.5vh;
+	width: 27.8vw;
+	position: absolute;
+	bottom: 4.3vh;
+	left: 25.9vw;
+	font-size: 2.5vh;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 .endLeft {
-	margin: 0
+	position: absolute;
+	bottom: 4.3vh;
+	right: 7vw;
+	margin: 0;
 }
-.slider-wrapper{
+.footer {
 	position: fixed;
 	bottom: 0;
-	width: 80vw;
-	padding: 10%;
-	background-color: #f4f4f4;
+	width: 100vw;
+	left: 0;
+	height: 15vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
-.progress {
-	width: 100%;
+.icon-wrapper {
+	box-sizing: border-box;
+	padding: 1.5vw;
+}
+.icon {
+	height: 4vw;
+	width: 6vw;
+	transition: all ease 0.3s;
+}
+.active-icon {
+	height: 8vw;
+	width: 12vw;
+}
+.icon-bar {
+	position: fixed;
+	width: 5vw;
+	height: 0.6vh;
+	bottom: 5vh;
+	transition: all ease 0.3s;
+	background-color: rgba(36,255,114,1);
 }
 </style>

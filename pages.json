@@ -3,7 +3,10 @@
 		{
 			"path": "pages/login/login",
 			"style": {
-				"navigationBarTitleText": "O币大作战"
+				"navigationBarTitleText": "O币大作战",
+				"usingComponents": {
+				  "van-picker": "/wxcomponents/vant-weapp/picker/index"
+				}
 			}
 		},
 		{
