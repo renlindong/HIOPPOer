@@ -3,7 +3,7 @@
 		<image class="background-img" src="../../static/images/background.png" mode=""></image>
 		<view class="content-wrap">
 			<view class="rank-info">
-				<text>排名：132</text>
+				<text>排名：{{ rank }}</text>
 				<text>/1232</text>
 			</view>
 			<view class="award-list">
@@ -14,11 +14,17 @@
 					<view 
 						:class="['award-list-item-rank', index % 2 === 0 ? `award-list-item-rank--even` : `award-list-item-rank--odd`]"
 						>{{ index + 1 }}</view>
-					<view 
+					<image 
 						:class="['award-list-item-img', index % 2 === 0 ? `award-list-item-img--even` : `award-list-item-img--odd`]"
-						></view>
+						:src="award.img"
+						></image>
 				</view>
-				<view class="award-list-last-item"></view>
+				<view 
+					:class="[
+						'award-list-last-item',
+						currentRank === 4 ? `award-list-last-item--active` : ``
+					]"
+					></view>
 			</view>
 		</view>
 	</view>
@@ -30,16 +36,16 @@
 			return {
 				awardList: [
 					{
-						img: '1',
+						img: '../../static/images/one.png',
 					},
 					{
-						img: '2',
+						img: '../../static/images/two.png',
 					},
 					{
-						img: '3',
+						img: '../../static/images/three.png',
 					}
 				],
-				currentRank: 4
+				rank: 0
 			}
 		},
 		computed: {
@@ -49,16 +55,35 @@
 					return [
 						base,
 						index % 2 === 0 ? `${base}--even` : `${base}--odd`,
-						this.currentRank === index ? `${base}--active]` : ''
+						this.currentRank === index + 1 ? `${base}--active]` : ''
 					]
 				})
+			},
+			currentRank() {
+				if(this.rank > 0) {
+					if(this.rank <= 30) {
+						return 1
+					} else if(this.rank <= 100) {
+						return 2
+					} else if (this.rank <= 200) {
+						return 3
+					} else if(this.rank <= 300) {
+						return 4
+					}
+				}
+				return 5
 			}
 		},
 		onLoad() {
+			let _this = this
 			wx.cloud.callFunction({
 				name: 'checkRank',
 				success: function (res) {
-					console.log(res)
+					if (res.result.rank === 0) {
+						_this.rank = Math.floor(Math.random() * (1232 - 300) ) + 300
+					} else {
+						_this.rank = res.result.rank
+					}
 				},
 				fail: function (res) {
 					console.log(res)
@@ -89,6 +114,7 @@
 		
 		.content-wrap {
 			padding-top: 4.77vh;
+			background-color: rgba(0, 0, 0, 0.5);
 			.rank-info {
 				margin-right: 4.77vh;
 				text-align: right;
@@ -103,17 +129,24 @@
 			
 			.award-list {
 				padding: 3.82vh 9.72vw 0;
-				height: 83.52vh;
-				display: flex;
-				flex-direction: column;
-				justify-content: space-between;
-				
 				&-item {
 					width: 100%;
+					height: 21.16vh;
 					flex: 1;
 					margin-bottom: 2.38vh;
-					background-color: #24FF72;
+					background-color: rgba(36, 255, 114, 0.2);
 					position: relative;
+					transition: all 0.2s;
+					color: rgba(36, 255, 114, 0.6);
+					
+					&--active {
+						background-color: rgba(36, 255, 114, 0.6);
+						color: rgba(36, 255, 114, 1);
+						
+						.award-list-item--even {
+							background-color: rgba(36, 255, 114, 0.4);
+						}
+					}
 					
 					&--even {
 						border-top-left-radius: 4.12vh;
@@ -129,8 +162,7 @@
 						width: 8.24vh;
 						height: 8.24vh;
 						border-radius: 50%;
-						background-color: #333;
-						color: #fff;
+						background-color: rgba(26, 255, 114, 0.3);
 						text-align: center;
 						line-height: 8.24vh;
 						&--even {
@@ -163,8 +195,13 @@
 				&-last-item {
 					width: 100%;
 					height: 14.32vh;
-					background-color: #24FF72;
-					opacity: 0.4;
+					background-color: rgba(36, 255, 114, 0.3);
+					transition: all 0.2s;
+					
+					&--active {
+						background-color: rgba(36, 255, 114, 0.6);
+					}
+					
 				}
 				
 			}

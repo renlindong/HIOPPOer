@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<image class="background-img" src="../../static/images/background.png" ></image>
-		<image @click="showTips = true" class="tips-icon" src="cloud://test-aed77.7465-test-aed77-1259785462/assets/icon-question.png" mode=""></image>
+		<image @click="showTips = true" class="tips-icon" src="../../static/images/icon-question.png" mode=""></image>
 		<image class="coin" src="../../static/images/icon-coin.png" :animation="coinAnimation"></image>
 		<view class="coin-box">
 			<image class="icon-pig" src="../../static/images/icon-pig.png" mode=""></image>
@@ -19,6 +19,7 @@
 					:class="programTouched ? 'active' : ''"
 					@touchstart="handleTouchStart('program')"
 					@touchend="handleTouchEnd('program')"
+					@click="goToAce"
 					src="../../static/images/icon-best-program.png" mode=""></image>
 			</view>
 			<view class="action-item">
@@ -80,6 +81,16 @@
 				}).then(response => {
 					Toast.clear()
 					let { result } = response
+					console.log(response)
+					if(!result.program.boss.hasOne) {
+						Toast({
+							mask: true,
+							duration: 1000,
+							forbidClick: true,
+							message: '现在还没有彩蛋哦~'
+						})
+						return
+					}
 					if(result && result.code === 200) {
 						let currentId = uni.getStorageSync('currentBossId')
 						if(currentId != result.program.programId) {
@@ -96,8 +107,11 @@
 							})
 						}
 					} else {
-						uni.showToast({
-							title: '当前节目没有大Boss'
+						Toast({
+							mask: true,
+							duration: 1000,
+							forbidClick: true,
+							message: '现在还没有彩蛋哦~'
 						})
 					}
 				})
@@ -151,7 +165,6 @@
 					let { result } = res
 					if (result.code == 200) {
 						let ob = uni.getStorageSync('leftOb')
-						console.log(result.code)
 						if (ob != result.ob) {
 							_this.startCartoon()
 							_this.num = result.ob

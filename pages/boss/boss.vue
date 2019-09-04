@@ -15,7 +15,7 @@
 		</view>
 		<view v-show="!showTips" class="program" key="content">
 			<view class="program-info">
-				<view class="program-info-img"></view>
+				<image class="program-info-img" :src="program.imgUrl"></image>
 				<view class="program-info-title">
 					<view class="program-info-title--label">节目：</view>
 					<view class="program-info-title--text">{{ program.title }}</view>
@@ -36,12 +36,13 @@
 			<button @click="handleSubmit" class="submit-btn" type="primary" size="mini">提交</button>
 		</view>
 		<van-toast id="van-toast" />
-		<van-dialog @confirm="onVote" id="van-dialog" />
+		<van-dialog id="van-dialog" />
 	</view>
 </template>
 
 <script>
-	import Toast from '../../wxcomponents/vant-weapp/toast/toast.js';
+	import Toast from '../../wxcomponents/vant-weapp/toast/toast.js'
+	import Dialog from '../../wxcomponents/vant-weapp/dialog/dialog'
 	export default {
 		data() {
 			return {
@@ -83,7 +84,7 @@
 							mask: true,
 							duration: 0,
 							forbidClick: true,
-							message: '等待中....'
+							message: '等待中...'
 						})
 						wx.cloud.callFunction({
 							name: 'answerBoss',
@@ -96,20 +97,27 @@
 							success: function (res) {
 								Toast.clear()
 								let { result } = res
+								console.log(result)
 								if(result.code === 200) {
 									uni.setStorageSync('currentBossId', _this.program.programId)
 									_this.isAnswer = true
-									uni.showModal({
-										title: result.message,
-										content: `O币数量+${result.amount}`,
-										showCancel: false,
-										success: function(confirm) {
-											if(confirm) {
-												uni.reLaunch({
-													url: '../home/home'
-												})
-											}
-										}
+									Dialog.confirm({
+										title: '恭喜你，回答正确！',
+										message: `O币数量+${result.amount}`,
+										showCancelButton: false
+									}).then(() => {
+										uni.reLaunch({
+											url: '../home/home'
+										})
+									}).catch((error) => {
+										console.log(error)
+									})
+								} else {
+									Toast({
+										mask: true,
+										duration: 1000,
+										forbidClick: true,
+										message: result.message
 									})
 								}
 							}
@@ -202,6 +210,7 @@
 				color: #24FF72;
 				&-img {
 					border: 8rpx solid #FFF;
+					width: 100%;
 					height: 20.2vh;
 				}
 				
