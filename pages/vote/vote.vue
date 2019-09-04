@@ -11,12 +11,14 @@
 				</view>
 			</view>
 			<van-dialog @confirm="onVote" id="van-dialog" />
+			<van-toast id="van-toast"/>
 		</view>
 	</view>
 </template>
 
 <script>
-	import Dialog from '../../wxcomponents/vant-weapp/dialog/dialog'
+	import Dialog from '../../wxcomponents/vant-weapp/dialog/dialog';
+	import Toast from '../../wxcomponents/vant-weapp/toast/toast';
 	export default {
 		data() {
 			return {
@@ -66,6 +68,12 @@
 				});
 			},
 			async onVote(e) {
+				Toast.loading({
+					mask: true,
+					duration: 0,
+					forbidClick: true,
+					message: '等待中...'
+				})
 				const { klass } = JSON.parse(uni.getStorageSync('oppoer'))
 				const stopVote = (await this.getFlags()).data.stopVote;
 				if(stopVote) {
