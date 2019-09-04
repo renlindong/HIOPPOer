@@ -107,7 +107,7 @@
 										showCancelButton: false
 									}).then(() => {
 										uni.reLaunch({
-											url: '../home/home'
+											url:'../home/home'
 										})
 									}).catch((error) => {
 										console.log(error)

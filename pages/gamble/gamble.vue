@@ -195,10 +195,8 @@
 							ob: leftOb,
 						}
 					}).then(res => {
-						uni.setStorage({
-							key: 'leftOb',
-							data: leftOb
-						})
+						uni.setStorageSync('first', true)
+						uni.setStorageSync('leftOb', leftOb)
 						uni.redirectTo({
 							url: `/pages/home/home`,
 						})
