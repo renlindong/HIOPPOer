@@ -170,6 +170,11 @@
 							_this.num = result.ob
 							uni.setStorageSync('leftOb', result.ob)
 						} else {
+							let first = uni.getStorageSync('first')
+							if(first) {
+								_this.startCartoon()
+								uni.setStorageSync('first', false)
+							}
 							_this.num = ob
 						}
 					} 
