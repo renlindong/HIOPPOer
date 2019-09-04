@@ -44,10 +44,6 @@
 			}
 		},
 		methods:{
-			clickLayer(e) {
-				console.log(e)
-				// if(e.)
-			},
 			onConfirm(e) {
 			    this.index = +e.detail.index;
 				this.showPicker = false;

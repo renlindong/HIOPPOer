@@ -60,7 +60,7 @@
 				voteProgram: "",
 				classes: [],
 				images: {
-					bg: '../../static/background.png',
+					bg: '../../static/images/background.png',
 				}
 			};
 		},
@@ -73,7 +73,7 @@
 				programId: true,
 				votes: true
 			}).get().then(res => {
-				let programs = res.data
+				let programs = res.data.filter(program => program.programId!=='10');
 				programs.sort((a, b) => (b.votes-a.votes))
 				this.programs = programs
 				this.leftProgs = programs.slice(3)

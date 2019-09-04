@@ -22,23 +22,13 @@
 			return {
 				program: {},
 				images: {
-					bg: '../../static/background.png',
+					bg: '../../static/images/background.png',
 				}
 			};
 		},
 		onLoad(query) {
-			const db = wx.cloud.database()
-			db.collection('programs').field({
-				_id: true,
-				title: true,
-				programId: true,
-				imgUrl: true,
-				disc: true
-			}).get().then(res => {
-				let programs = res.data.filter(item => (item._id===query.id))
-				this.program = programs[0]
-				console.log(this.program)
-			})
+			const programs = uni.getStorageSync('programs');
+			this.program = (programs.filter(item => (item._id===query.id)))[0]
 		},
 		methods:{
 			onPick(){

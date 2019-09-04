@@ -23,7 +23,7 @@
 				programs: [],
 				voteProgram: '',
 				images: {
-					bg: '../../static/background.png',
+					bg: '../../static/images/background.png',
 				},
 			};
 		},
@@ -35,25 +35,15 @@
 					url: `/pages/ace/ace?id=${voteProgram}`
 				})
 			}
-			
-			// this.programs = JSON.parse(uni.getStorageSync('programs'))
-			const db = wx.cloud.database()
-			db.collection('programs').field({
-				_id: true,
-				title: true,
-				programId: true,
-				imgUrl: true,
-			}).get().then(res => {
-				this.programs = res.data
-				if(query.from==="pickDetail"){
-					this.voteProgram = query.id
-					const { klass } = JSON.parse(uni.getStorageSync('oppoer'))
-					Dialog.confirm({
-						message: `${klass==='欧爸'?'欧爸有50票，一旦投票无法更改':'每人仅有一票且无法更改'}，您确定要投票吗？`,
-						cancelButtonText: '再想想'
-					})
-				}
-			})
+			this.programs = uni.getStorageSync('programs');
+			if(query.from==="pickDetail"){
+				this.voteProgram = query.id
+				const { klass } = JSON.parse(uni.getStorageSync('oppoer'))
+				Dialog.confirm({
+					message: `${klass==='欧爸'?'欧爸有50票，一旦投票无法更改':'每人仅有一票且无法更改'}，您确定要投票吗？`,
+					cancelButtonText: '再想想'
+				})
+			}
 		},
 		
 		methods: {
