@@ -97,7 +97,6 @@
 							success: function (res) {
 								Toast.clear()
 								let { result } = res
-								console.log(result)
 								if(result.code === 200) {
 									uni.setStorageSync('currentBossId', _this.program.programId)
 									_this.isAnswer = true
