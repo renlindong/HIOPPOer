@@ -54,13 +54,15 @@
 			</view>
 			<view class="icon-bar" :style="'left:'+barLeft+'vw'"> </view>
 			<van-dialog @confirm="onConfirm" id="van-dialog" />
+			<van-toast id="van-toast"/>
 		</view>
 	</view>
 	
 </template>
 
 <script>
-	import Dialog from '../../wxcomponents/vant-weapp/dialog/dialog'
+	import Dialog from '../../wxcomponents/vant-weapp/dialog/dialog';
+	import Toast from '../../wxcomponents/vant-weapp/toast/toast'
 	export default {
 		data() {
 			return {
@@ -159,6 +161,13 @@
 			
 			//提交pick结果
 			async onConfirm(){
+				Toast.loading({
+					mask: true,
+					duration: 0,
+					forbidClick: true,
+					message: '等待中...'
+				})
+				
 				//装载payload
 				let picks = this.picks.map(item => {
 					const { programId, title, ob } = item

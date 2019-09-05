@@ -5,7 +5,8 @@
 			"style": {
 				"navigationBarTitleText": "O币大作战",
 				"usingComponents": {
-				  "van-picker": "/wxcomponents/vant-weapp/picker/index"
+				  "van-picker": "/wxcomponents/vant-weapp/picker/index",
+				  "van-toast": "/wxcomponents/vant-weapp/toast/index"
 				}
 			}
 		},
@@ -43,7 +44,8 @@
 				"navigationBarTitleText": "Pick你所爱",
 				"usingComponents": {
 					"van-dialog": "/wxcomponents/vant-weapp/dialog/index",
-					"van-slider": "/wxcomponents/vant-weapp/slider/index"
+					"van-slider": "/wxcomponents/vant-weapp/slider/index",
+					"van-toast": "/wxcomponents/vant-weapp/toast/index"
 				}
 			}
 		}, {
@@ -51,7 +53,8 @@
 			"style": {
 				"navigationBarTitleText": "最佳节目",
 				"usingComponents": {
-					"van-dialog": "/wxcomponents/vant-weapp/dialog/index"
+					"van-dialog": "/wxcomponents/vant-weapp/dialog/index",
+					"van-toast": "/wxcomponents/vant-weapp/toast/index"
 				}
 			}
         }

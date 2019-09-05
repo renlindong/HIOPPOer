@@ -16,11 +16,13 @@
 			@confirm="onConfirm" 
 			:columns="array">
 		</van-picker>
+		<van-toast id="van-toast"/>
 	</view>
 	
 </template>
 
 <script>
+	import Toast from '../../wxcomponents/vant-weapp/toast/toast'
 	export default {
 		data() {
 			return {
@@ -56,10 +58,12 @@
 					data: { name, klass },
 					success(res) {
 						if(res.result.errCode===1) {
-							console.log(res.result.errMessage)
-							wx.showToast({
-								title: index===7?'您似乎不在“欧爸”阵营中，请再次核对班级':'姓名或班级错误',
-								icon: 'none'
+							const message = index===7?'您似乎不在“欧爸”阵营中，请再次核对班级':'姓名或班级错误';
+							Toast({
+								mask: true,
+								duration: 1000,
+								forbidClick: true,
+								message: message
 							})
 						} else if (res.result.errCode===0) {
 							// console.log('success', res.errMessage)
@@ -71,9 +75,11 @@
 						}
 					},
 					fail: (res)=>{
-						wx.showToast({
-							title: '登录失败，请重试',
-							icon: 'none'
+						Toast({
+							mask: true,
+							duration: 1000,
+							forbidClick: true,
+							message: '登录失败，请重试'
 						})
 						console.log('login fail', res)
 					}

@@ -10,7 +10,7 @@
 				<view class="program-disc">
 					{{program.disc}}
 				</view>
-				<button @tap="onPick" >投票</button>
+				<view class="btn-confirm" @tap="onPick" >投票</view>
 			</view>
 		</view>
 	</view>
@@ -68,7 +68,8 @@
 		height: 15.6vh;
 		margin-bottom: 3.2vh;
 	};
-	button {
+}
+.btn-confirm {
 		position: absolute;
 		right: 12.3vw;
 		bottom: 8vh;
@@ -82,7 +83,6 @@
 		border-radius: 2upx;
 		font-size: 1.8vh;
 	}
-}
 .program-title {
 	font-size: 1.9vh;
 	color: rgba(36,255,114,1);
