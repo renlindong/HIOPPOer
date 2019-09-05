@@ -36,7 +36,7 @@
 					@touchstart="handleTouchStart('boss')"
 					@touchend="handleTouchEnd('boss')"
 					@click="findBoss"
-					src="../../static/images/icon-best-program.png" mode=""></image>
+					src="../../static/images/icon-egg.png" mode=""></image>
 			</view>
 		</view>
 		<view v-show="showTips" class="tips-wrap">

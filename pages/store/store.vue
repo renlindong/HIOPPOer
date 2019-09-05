@@ -1,6 +1,7 @@
 <template>
 	<view class="container">
 		<image class="background-img" src="../../static/images/background.png" mode=""></image>
+		<view class="layer"></view>
 		<view class="content-wrap">
 			<view class="rank-info">
 				<text>排名：{{ rank }}</text>
@@ -24,7 +25,7 @@
 						'award-list-last-item',
 						currentRank === 4 ? `award-list-last-item--active` : ``
 					]"
-					></view>
+					>再接再厉哦！</view>
 			</view>
 		</view>
 	</view>
@@ -65,13 +66,11 @@
 						return 1
 					} else if(this.rank <= 100) {
 						return 2
-					} else if (this.rank <= 200) {
-						return 3
 					} else if(this.rank <= 300) {
-						return 4
+						return 3
 					}
 				}
-				return 5
+				return 4
 			}
 		},
 		onLoad() {
@@ -109,9 +108,17 @@
 			left: 0;
 			width: 100%;
 			height: 100%;
-			z-index: -1;
+			z-index: -123;
 		}
-		
+		.layer {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			height: 100vh;
+			z-index: -120;
+			background-color: rgba($color: #000000, $alpha: 0.6);
+		}
 		.content-wrap {
 			padding-top: 4.77vh;
 			background-color: rgba(0, 0, 0, 0.5);
@@ -197,6 +204,11 @@
 					height: 14.32vh;
 					background-color: rgba(36, 255, 114, 0.3);
 					transition: all 0.2s;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					color: rgba(36, 255, 114, 1);
+					
 					
 					&--active {
 						background-color: rgba(36, 255, 114, 0.6);
