@@ -36,7 +36,7 @@
 					@touchstart="handleTouchStart('boss')"
 					@touchend="handleTouchEnd('boss')"
 					@click="findBoss"
-					src="../../static/images/icon-best-program.png" mode=""></image>
+					src="../../static/images/icon-egg.png" mode=""></image>
 			</view>
 		</view>
 		<view v-show="showTips" class="tips-wrap">
@@ -205,7 +205,7 @@
 			left: 0;
 			width: 100%;
 			height: 100%;
-			z-index: -1;
+			z-index: -999;
 		}
 		
 		.tips-icon {
@@ -270,6 +270,7 @@
 			left: 50%;
 			margin-left: -40rpx;
 			transition: all 1s ease;
+			z-index: -1;
 		}
 		.coin-box {
 			box-sizing: border-box;
@@ -284,7 +285,7 @@
 				left: 0;
 				width: 100%;
 				height: 100%;
-				z-index: -1;
+				z-index: 10;
 			}
 			.coin-info {
 				position: absolute;
@@ -294,6 +295,7 @@
 				transform: translate(-50%, -50%);
 				text-align: center;
 				color: #24FF72;
+				z-index: 20;
 				&-title {
 					font-size: 4.62vw;
 					opacity: 0.7;
