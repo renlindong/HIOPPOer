@@ -16,14 +16,6 @@
 		<view class="action">
 			<view class="action-item">
 				<image
-					:class="programTouched ? 'active' : ''"
-					@touchstart="handleTouchStart('program')"
-					@touchend="handleTouchEnd('program')"
-					@click="goToAce"
-					src="../../static/images/icon-best-program.png" mode=""></image>
-			</view>
-			<view class="action-item">
-				<image
 					:class="awardTouched ? 'active' : ''"
 					@touchstart="handleTouchStart('award')"
 					@touchend="handleTouchEnd('award')"
@@ -223,6 +215,7 @@
 			width: 100%;
 			height: 100%;
 			background-color: rgba($color: #000000, $alpha: 0.5);
+			z-index: 999;
 			.tips {
 				position: relative;
 				top: 7.2vh;
@@ -322,7 +315,7 @@
 			width: 100%;
 			padding: 0 11.2vw;
 			display: flex;
-			justify-content: space-between;
+			justify-content: space-around;
 			align-items: center;
 			&-item {
 				width: 21.92vw;

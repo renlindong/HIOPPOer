@@ -48,28 +48,7 @@
 					"van-toast": "/wxcomponents/vant-weapp/toast/index"
 				}
 			}
-		}, {
-			"path": "pages/vote/vote",
-			"style": {
-				"navigationBarTitleText": "最佳节目",
-				"usingComponents": {
-					"van-dialog": "/wxcomponents/vant-weapp/dialog/index",
-					"van-toast": "/wxcomponents/vant-weapp/toast/index"
-				}
-			}
-        }
-        ,{
-            "path" : "pages/ace/ace",
-            "style" : {
-				"navigationBarTitleText": "最佳节目排名"
-			}
-        }
-        ,{
-            "path" : "pages/pickDetail/pickDetail",
-            "style" : {
-				"navigationBarTitleText": "最佳节目详情"
-			}
-        }
+		}
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

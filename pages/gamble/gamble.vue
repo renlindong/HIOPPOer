@@ -2,11 +2,6 @@
 	<view>
 		<image class="bgImg" :src="images.bg"></image>
 		<view class="layer"></view>
-		<view class="intro">
-			<view class="intro-title">Pick你所爱：</view>
-			<view class="intro-content">玩家初始资金为15枚欧币，请在晚会开始前根据节目花絮选择你心中的最佳节目（不限数量）并投资，晚会过程中将通过公投的形式选出“最佳节目Top3”。</view>
-			<view class="intro-content">如果投资的节目获得第一名将获得预投资额度的8倍的收益，第二名为5倍收益，第三名为3倍。</view>
-		</view>
 		<view class="main">
 			<swiper
 				:current="curProg"
